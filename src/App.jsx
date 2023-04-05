@@ -6,8 +6,8 @@ import RegistroApp from './paginas/Registro.jsx'
 import CargarHora from './paginas/CargarHora.jsx'
 import MenuInferior from './components/menuInf'
 import {Container,Navbar} from 'react-bootstrap';
+
 function App() {
-    const [count, setCount] = useState(0)
 
     return (
         <>

@@ -16,6 +16,9 @@ const MenuInferior = (props) => {
                 <Button>
                     Perfil
                 </Button>
+                <Button>
+                    Config
+                </Button>
             </Row>
 
         </Container>

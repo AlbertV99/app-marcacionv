@@ -1,0 +1,8 @@
+{
+    "persona":{
+        "cedula":"5031168|cedula del empleado"
+    }
+    "bd_personas":[
+        {"nombre":"Alberto Valdez","cedula":"5031168"},
+    ]
+}

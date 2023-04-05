@@ -4,9 +4,23 @@ import {Container,Navbar,Row,Col,Button,Form} from 'react-bootstrap';
 import MenuInferior from '../components/menuInf'
 
 const RegistroApp = (props) => {
+    const [datos, setDatos] = useState([]);
+    useEffect(() => {
+      const items = JSON.parse(localStorage.getItem('persona'));
+      if (items) {
+       setDatos(items);
+      }
+    }, []);
+    const guardarInfo = (evento)=>{
+        evento.preventDefault();
+        const cedula = evento.target.cedula.value;
+
+
+    }
+
     return (
         <>
-            <Form>
+            <Form onSubmit={guardarInfo}>
                 <Container fluid>
                     <Row>
                         <Col>
@@ -20,12 +34,12 @@ const RegistroApp = (props) => {
                     </Row>
                     <Row>
                         <Col>
-                            <Form.Control type="text" placeholder="Ingrese su Cedula" id="cedula"/>
+                            <Form.Control type="text" placeholder="Ingrese su Cedula" id="cedula" name="cedula"/>
                         </Col>
                     </Row>
                 </Container>
                 <Navbar fixed='bottom' style={{position:'fixed',bottom:"100px",width:"100%"}}>
-                    <Button variant="primary">
+                    <Button variant="primary" type="submit">
                         Guardar
                     </Button>
                 </Navbar>

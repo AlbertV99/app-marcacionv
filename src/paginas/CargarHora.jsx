@@ -28,7 +28,7 @@ const CargarHora = (props) => {
                 </Row>
                 <Row>
                     <Col>
-                        <Webcam audio={false} height={200}ref={webcamRef} screenshotFormat="image/jpeg" videoConstraints={videoConstraints} width={200}></Webcam>
+                        <Webcam audio={false} height={300}ref={webcamRef} screenshotFormat="image/jpeg" videoConstraints={videoConstraints} width={300}></Webcam>
                     </Col>
                 </Row>
                 <Row>
