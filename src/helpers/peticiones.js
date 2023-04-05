@@ -3,7 +3,7 @@
 
 const Peticiones = () => {
   //DATOS A UTILIZAR EN EL OBJETO CARDS
-    const BASE = "http://localhost:8000/" // SERVIDOR AL CUAL SE REALIZARAN LAS PETICIONES
+    const BASE = "http://marcador.valurq.com/inserciones.php" // SERVIDOR AL CUAL SE REALIZARAN LAS PETICIONES
     const EMPRESA = "01"
     const CODIGO = "01"
     const CLAVE = "pollo931"
@@ -107,7 +107,34 @@ const Peticiones = () => {
         const data = await res.json();
         return data;
     }
-    return [obtenerPanel,guardarNuevoJson,obtenerUnicoRegistro,eliminarRegistro,endpointLibre]
+
+    const obtenerPersona = async (ci)=>{
+        const query= `SELECT * FROM personal WHERE nro_docum ='${ci}';`
+        const url = BASE;
+        const temp = await fetch(url, {
+              method: 'POST',
+              headers: {'Content-Type': 'text/plain'},
+              body: query
+        });
+        // console.log(temp)
+        try{
+            const data = JSON.parse(await temp.text());
+
+            return data
+        }catch (e){
+            console.error("error:",e)
+            return []
+        }
+
+    }
+
+    const registrarMarcacion = async (datos)=>{
+        return ""
+    }
+    const obtenerHistorial = async (ci)=>{
+        return ""
+    }
+    return [obtenerPanel,obtenerUnicoRegistro,guardarNuevoJson,guardarNuevoArchivo,modificarRegistroJson,eliminarRegistro,endpointLibre,obtenerPersona,registrarMarcacion,obtenerHistorial]
 }
 
 export default Peticiones
