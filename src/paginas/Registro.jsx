@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {Container,Navbar,Row,Col,Button,Form} from 'react-bootstrap';
 import MenuInferior from '../components/menuInf'
@@ -14,7 +14,8 @@ const RegistroApp = (props) => {
     const guardarInfo = (evento)=>{
         evento.preventDefault();
         const cedula = evento.target.cedula.value;
-
+        console.log(cedula)
+        localStorage.setItem('persona',JSON.stringify({'cedula':cedula}))
 
     }
 

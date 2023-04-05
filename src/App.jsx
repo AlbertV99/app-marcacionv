@@ -6,12 +6,13 @@ import RegistroApp from './paginas/Registro.jsx'
 import CargarHora from './paginas/CargarHora.jsx'
 import MenuInferior from './components/menuInf'
 import {Container,Navbar} from 'react-bootstrap';
+import { Outlet } from "react-router-dom";
 
 function App() {
 
     return (
         <>
-            <CargarHora/>
+            <Outlet></Outlet>
             <Navbar fixed="bottom" style={{position:'fixed',bottom:"0px",width:"100%"}}>
                 <MenuInferior></MenuInferior>
             </Navbar>
