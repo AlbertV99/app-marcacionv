@@ -86,7 +86,7 @@ const CargarHora = (props) => {
                     </Col>
                 </Row>
             </Container>
-            <Navbar fixed='bottom' style={{position:'fixed',bottom:"100px",width:"100%"}}>
+            <Navbar fixed='bottom' style={{position:'fixed',bottom:"100px",width:"100%",justifyContent:"center"}}>
                 <Button variant="primary" onClick={capture}>
                     Marcar
                 </Button>

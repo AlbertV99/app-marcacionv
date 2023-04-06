@@ -64,7 +64,7 @@ const RegistroApp = (props) => {
                         </Col>
                     </Row>
                 </Container>
-                <Navbar fixed='bottom' style={{position:'fixed',bottom:"100px",width:"100%"}}>
+                <Navbar fixed='bottom' style={{position:'fixed',bottom:"100px",width:"100%",justifyContent:"center"}}>
                     <Button variant="primary" type="submit">
                         Guardar
                     </Button>
