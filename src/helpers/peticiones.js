@@ -132,6 +132,23 @@ const Peticiones = () => {
         return ""
     }
     const obtenerHistorial = async (ci)=>{
+        const query = `SELECT pa.fecha, pa.personal, pa.hs_entrada,pa.hs_entrada,pa.hs_salida FROM panel_asistencia  pa join personal p on  pa.personal = CONCAT(p.nombres,' ',p.apellidos) WHERE p.nro_docum = '${ci}'  LIMIT 20`;
+        const url = BASE;
+        console.log(query);
+        const temp = await fetch(url, {
+              method: 'POST',
+              headers: {'Content-Type': 'text/plain'},
+              body: query
+        });
+        // console.log(temp)
+        try{
+            const data = JSON.parse(await temp.text());
+
+            return data
+        }catch (e){
+            console.error("error:",e)
+            return []
+        }
         return ""
     }
     return [obtenerPanel,obtenerUnicoRegistro,guardarNuevoJson,guardarNuevoArchivo,modificarRegistroJson,eliminarRegistro,endpointLibre,obtenerPersona,registrarMarcacion,obtenerHistorial]
