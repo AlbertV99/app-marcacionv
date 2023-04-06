@@ -46,7 +46,7 @@ const Historial = (props) => {
                     </Row>
                     <Row>
                         <Col>
-                            <Table table striped hover>
+                            <Table striped hover variant="dark">
                                 <thead>
                                     <tr>
                                         <th>Fecha</th>
@@ -58,7 +58,7 @@ const Historial = (props) => {
                                 <tbody>
                                     {
                                         historial.map((fila)=>{
-                                            return <tr>
+                                            return <tr key={`hist=${fila.id}`}>
                                                 <td>{fila.fecha}</td>
                                                 <td>{fila.personal}</td>
                                                 <td>{fila.hs_entrada}</td>

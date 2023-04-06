@@ -132,7 +132,7 @@ const Peticiones = () => {
         return ""
     }
     const obtenerHistorial = async (ci)=>{
-        const query = `SELECT pa.fecha, pa.personal, pa.hs_entrada,pa.hs_entrada,pa.hs_salida FROM panel_asistencia  pa join personal p on  pa.personal = CONCAT(p.nombres,' ',p.apellidos) WHERE p.nro_docum = '${ci}'  LIMIT 20`;
+        const query = `SELECT pa.id,pa.fecha, pa.personal, pa.hs_entrada,pa.hs_entrada,pa.hs_salida FROM panel_asistencia  pa join personal p on  pa.personal = CONCAT(p.nombres,' ',p.apellidos) WHERE p.nro_docum = '${ci}'  LIMIT 20`;
         const url = BASE;
         console.log(query);
         const temp = await fetch(url, {
