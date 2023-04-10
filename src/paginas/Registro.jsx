@@ -32,6 +32,7 @@ const RegistroApp = (props) => {
                     setMsg("Registrado correctamente")
                     localStorage.setItem('persona',JSON.stringify({'cedula':cedula,"nombre":temp.nombres,"apellido":temp.apellidos,"dsc_cargo":temp.dsc_cargo}));
                 }else{
+                    localStorage.setItem('persona',JSON.stringify({}));
                     setMsg("Usuario no existe en el registro");
                 }
 
