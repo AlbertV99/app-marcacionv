@@ -1,12 +1,12 @@
 
 
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
 }
-
 
 
 .logo {
@@ -43,4 +43,25 @@
 
 .read-the-docs {
   color: #888;
+}
+
+
+/* SECCION PARA SELECCION DE OPCION DE MENU */
+
+#opciones a{
+    color:#017bc8;
+}
+
+#opciones a.active{
+    color:#FFF;
+    background-color: #017bc8;
+}
+div:has(> a.active) {
+    color:#FFF;
+    background-color: #017bc8;
+}
+
+div <a.active{
+    color:#FFF;
+    background-color: #017bc8;
 }

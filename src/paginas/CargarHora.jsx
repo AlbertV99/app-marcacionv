@@ -54,10 +54,10 @@ const CargarHora = (props) => {
     return (
         <>
         <Form>
-            <Container fluid>
+            <Container fluid style={{alignItems:"center",gridGap:"1em",display:"grid",marginTop:"3em"}}>
                 <Row>
                     <Col>
-                        <h2>Marcación</h2>
+                        <h2>Marcación de entrada/salida</h2>
                     </Col>
                 </Row>
                 <Row>
@@ -67,13 +67,13 @@ const CargarHora = (props) => {
                 </Row>
                 <Row>
                     <Col>
-                        <h2>{horaActual}</h2>
+                        <h2>{persona.nombre +' '+persona.apellido +'-'+persona.dsc_cargo} </h2>
+                        <h3>{persona.cedula}</h3>
                     </Col>
                 </Row>
                 <Row>
                     <Col>
-                        <h2>{persona.nombre +' '+persona.apellido +'-'+persona.dsc_cargo} </h2>
-                        <h3>{persona.cedula}</h3>
+                        <Form.Label>{horaActual}</Form.Label>
                     </Col>
                 </Row>
                 <Row>

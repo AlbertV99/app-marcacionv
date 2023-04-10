@@ -14,7 +14,7 @@ function App() {
     return (
         <>
             <Outlet></Outlet>
-            <Navbar fixed="bottom" style={{position:'fixed',bottom:"0px",width:"100%"}}>
+            <Navbar fixed="bottom" style={{position:'fixed',bottom:"0px",width:"100%",padding:"0px"}}>
                 <MenuInferior></MenuInferior>
             </Navbar>
 

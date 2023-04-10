@@ -38,7 +38,7 @@ const Historial = (props) => {
 
     return (
         <>
-                <Container fluid>
+                <Container fluid style={{alignItems:"center",gridGap:"1em",display:"grid",marginTop:"3em"}}>
                     <Row>
                         <Col>
                             <h2>Historial de Marcacion</h2>
@@ -46,11 +46,10 @@ const Historial = (props) => {
                     </Row>
                     <Row>
                         <Col>
-                            <Table striped hover variant="dark">
+                            <Table striped hovers>
                                 <thead>
                                     <tr>
                                         <th>Fecha</th>
-                                        <th>Personal</th>
                                         <th>Entrada</th>
                                         <th>Salida</th>
                                     </tr>
@@ -60,7 +59,6 @@ const Historial = (props) => {
                                         historial.map((fila)=>{
                                             return <tr key={`hist=${fila.id}`}>
                                                 <td>{fila.fecha}</td>
-                                                <td>{fila.personal}</td>
                                                 <td>{fila.hs_entrada}</td>
                                                 <td>{fila.hs_salida}</td>
                                             </tr>

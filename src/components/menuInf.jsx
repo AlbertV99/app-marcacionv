@@ -9,7 +9,7 @@ const MenuInferior = (props) => {
     const [dir,setDir] = useState({"historial":"","hora":"","config":""});
     const cambiar = (direccion)=>{
         let temp = base;
-        temp[direccion]=true
+        temp[direccion]="activo"
         setDir(temp);
     }
     /*
@@ -20,9 +20,9 @@ const MenuInferior = (props) => {
     */
     return (
         <Container fluid style={{padding:"0px",justifyContent: "center"}} >
-            <Row style={{width:"100%",justifyContent:"center"}}>
+            <Row style={{width:"100%",justifyContent:"center"}} id="opciones">
                 <Col xs={4} >
-                    <NavLink to={`/historial`}>
+                    <NavLink to={`/historial`} >
                             <h2><BiHistory/></h2>
                             Historial
                     </NavLink>
