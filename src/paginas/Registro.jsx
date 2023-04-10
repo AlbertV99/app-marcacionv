@@ -63,12 +63,12 @@ const RegistroApp = (props) => {
                     </Row>
                     <Row>
                         <Col>
-                            <Form.Label>Cedula</Form.Label>
+                            <Form.Label>Cédula de Identidad</Form.Label>
                         </Col>
                     </Row>
                     <Row>
                         <Col>
-                            <Form.Control type="text" placeholder="Ingrese su Cedula" id="cedula" name="cedula"/>
+                            <Form.Control type="text" placeholder="Ingrese su Cédula" id="cedula" name="cedula"/>
                         </Col>
                     </Row>
                     <Row>
