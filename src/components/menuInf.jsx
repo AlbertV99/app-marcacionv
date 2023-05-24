@@ -19,7 +19,7 @@ const MenuInferior = (props) => {
     // registro BiUserCircle
     */
     return (
-        <Container fluid style={{padding:"0px",justifyContent: "center"}} >
+        <Container fluid style={{padding:"0px",justifyContent: "center",backgroundColor:'white'}} >
             <Row style={{width:"100%",justifyContent:"center"}} id="opciones">
                 <Col xs={4} >
                     <NavLink to={`/historial`} >

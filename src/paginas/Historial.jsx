@@ -11,7 +11,7 @@ const Historial = (props) => {
     const [historial,setHistorial] = useState([])
     const [persona,setPersona] = useState({"cedula":""})
     const [msg, setMsg] = useState("");
-    const [,,,,,,endpointLibre,obtenerPersona,registrarMarcacion,obtenerHistorial] = Peticiones();
+    const {endpointLibre,obtenerPersona,registrarMarcacion,obtenerHistorial} = Peticiones();
 
     useEffect(() => {
         const persona =localStorage.getItem('persona');
@@ -46,7 +46,7 @@ const Historial = (props) => {
                     </Row>
                     <Row>
                         <Col>
-                            <Table striped hovers>
+                            <Table striped hover>
                                 <thead>
                                     <tr>
                                         <th>Fecha</th>

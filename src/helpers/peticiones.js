@@ -1,9 +1,11 @@
 // import useState from 'react'
 // import env from "react-dotenv";
+import Constantes from "./constantes"
 
 const Peticiones = () => {
   //DATOS A UTILIZAR EN EL OBJETO CARDS
-    const BASE = "http://marcador.valurq.com/inserciones.php" // SERVIDOR AL CUAL SE REALIZARAN LAS PETICIONES
+    const {host} = Constantes();
+    const BASE = host // SERVIDOR AL CUAL SE REALIZARAN LAS PETICIONES
     const EMPRESA = "01"
     const CODIGO = "01"
     const CLAVE = "pollo931"
@@ -35,11 +37,12 @@ const Peticiones = () => {
     const guardarNuevoJson = async (modulo,datos)=>{
         const url = BASE + modulo ;
         console.log(url)
+        console.log(datos)
         const temp = await fetch(url, {
-          "method": "POST",
-          "headers": {
-            "Content-Type": "application/json",
-           },
+            "method": "POST",
+            "headers": {
+                "Content-Type": "application/json",
+            },
             "body": JSON.stringify(datos)
         });
         console.log(temp);
@@ -98,7 +101,6 @@ const Peticiones = () => {
 
     const endpointLibre = async (modulo,metodo)=>{
         const url = BASE + modulo ;
-        console.log(url)
         const temp = await fetch(url, {
           "method": metodo,
         });
@@ -128,13 +130,30 @@ const Peticiones = () => {
 
     }
 
+    const obtenerPersonales = async ()=>{
+        const query = "SELECT id,nombres,apellidos,nro_docum,dsc_cargo FROM personal ;";
+        const url = BASE;
+        const temp = await fetch(url, {
+              method: 'POST',
+              headers: {'Content-Type': 'text/plain'},
+              body: query
+        });
+        try{
+            const data = JSON.parse(await temp.text());
+            localStorage.setItem('personales',JSON.stringify(data));
+            // return data
+        }catch (e){
+            console.error("error:",e)
+            return []
+        }
+    }
+
     const registrarMarcacion = async (datos)=>{
         return ""
     }
     const obtenerHistorial = async (ci)=>{
         const query = `SELECT pa.id,pa.fecha, pa.personal, pa.hs_entrada,pa.hs_entrada,pa.hs_salida FROM panel_asistencia  pa join personal p on  pa.personal = CONCAT(p.nombres,' ',p.apellidos) WHERE p.nro_docum = '${ci}'  LIMIT 20`;
         const url = BASE;
-        console.log(query);
         const temp = await fetch(url, {
               method: 'POST',
               headers: {'Content-Type': 'text/plain'},
@@ -143,7 +162,6 @@ const Peticiones = () => {
         // console.log(temp)
         try{
             const data = JSON.parse(await temp.text());
-
             return data
         }catch (e){
             console.error("error:",e)
@@ -151,7 +169,20 @@ const Peticiones = () => {
         }
         return ""
     }
-    return [obtenerPanel,obtenerUnicoRegistro,guardarNuevoJson,guardarNuevoArchivo,modificarRegistroJson,eliminarRegistro,endpointLibre,obtenerPersona,registrarMarcacion,obtenerHistorial]
+    // return [obtenerPanel,obtenerUnicoRegistro,guardarNuevoJson,guardarNuevoArchivo,modificarRegistroJson,eliminarRegistro,endpointLibre,obtenerPersona,registrarMarcacion,obtenerHistorial]
+    return {
+        "obtenerPanel":obtenerPanel,
+        "obtenerUnicoRegistro":obtenerUnicoRegistro,
+        "guardarNuevoJson":guardarNuevoJson,
+        "guardarNuevoArchivo":guardarNuevoArchivo,
+        "modificarRegistroJson":modificarRegistroJson,
+        "eliminarRegistro":eliminarRegistro,
+        "endpointLibre":endpointLibre,
+        "obtenerPersona":obtenerPersona,
+        "registrarMarcacion":registrarMarcacion,
+        "obtenerHistorial":obtenerHistorial,
+        "obtenerPersonales":obtenerPersonales
+    }
 }
 
 export default Peticiones

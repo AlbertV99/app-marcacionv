@@ -4,7 +4,10 @@ import {useNavigate,NavLink} from "react-router-dom"
 import {Container,Navbar,Row,Col,Button,Form} from 'react-bootstrap';
 import MenuInferior from '../components/menuInf'
 import Webcam from "react-webcam";
+import peticiones from '../helpers/peticiones'
+
 const CargarHora = (props) => {
+    const {guardarNuevoJson} = peticiones();
     const webcamRef = useRef(null);
     const [imgSrc, setImgSrc] = useState(null);
     const [horaActual,setHoraActual] = useState("")
@@ -36,10 +39,25 @@ const CargarHora = (props) => {
         setHoraActual(hora.toLocaleTimeString('es-PY'))
 
     }
+    const capturePhoto = (tipo) => {
+        const photo = webcamRef.current.getScreenshot();
+        setImgSrc(photo);
 
+        const data = {
+            id: persona.id,
+            cedula: persona.cedula,
+            dsc_cargo: persona.dsc_cargo,
+            tipo_marcacion : tipo,
+            photo: photo,
+        };
+        // Envía la foto y los datos al servidor utilizando fetch
+        guardarNuevoJson("/marcacion/Parametros/ABMForm.php",data);
+
+      };
     const capture = useCallback(
         () => {
             const imageSrc = webcamRef.current.getScreenshot();
+            console.log(imageSrc)
             setImgSrc(imageSrc);
         },
         [webcamRef,setImgSrc]
@@ -62,33 +80,32 @@ const CargarHora = (props) => {
                 </Row>
                 <Row>
                     <Col>
-                        <Webcam audio={false} height={300}ref={webcamRef} screenshotFormat="image/jpeg" videoConstraints={videoConstraints} width={300}></Webcam>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        <h2>{persona.nombre +' '+persona.apellido +'-'+persona.dsc_cargo} </h2>
-                        <h3>{persona.cedula}</h3>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
                         <Form.Label>{horaActual}</Form.Label>
                     </Col>
                 </Row>
                 <Row>
                     <Col>
-                        {imgSrc && (
-                            <img
-                              src={imgSrc}
-                            />
-                          )}
+                        <Webcam audio={false} height={300}ref={webcamRef} screenshotFormat="image/jpeg" videoConstraints={videoConstraints} width={300}></Webcam>
                     </Col>
                 </Row>
+
+                <Row>
+                    <Col>
+                        <h4>{persona.cedula}</h4>
+                        <h2>{persona.nombre +' '+persona.apellido} </h2>
+                        <h6>{persona.dsc_cargo}</h6>
+                    </Col>
+                </Row>
+
+
             </Container>
             <Navbar fixed='bottom' style={{position:'fixed',bottom:"100px",width:"100%",justifyContent:"center"}}>
-                <Button variant="primary" onClick={capture}>
-                    Marcar
+                <Button variant="success" onClick={()=>{capturePhoto("E")}}>
+                    Entrada
+                </Button>
+
+                <Button variant="danger" onClick={()=>{capturePhoto("S")}}>
+                    Salida
                 </Button>
             </Navbar>
         </Form>
@@ -98,3 +115,14 @@ const CargarHora = (props) => {
 }
 
 export default CargarHora
+/*
+// <Row>
+//     <Col>
+//         {imgSrc && (
+//             <img
+//               src={imgSrc}
+//             />
+//           )}
+//     </Col>
+// </Row>
+ */

@@ -9,7 +9,8 @@ import { BiUserCircle } from "react-icons/bi";
 const RegistroApp = (props) => {
     const [datos, setDatos] = useState([]);
     const [msg, setMsg] = useState("");
-    const [,,,,,,endpointLibre,obtenerPersona,registrarMarcacion,obtenerHistorial] = Peticiones();
+    // const [,,,,,,endpointLibre,obtenerPersona,registrarMarcacion,obtenerHistorial] = Peticiones();
+    const {endpointLibre,obtenerPersona,registrarMarcacion,obtenerHistorial} = Peticiones();
     useEffect(() => {
       const items = JSON.parse(localStorage.getItem('persona'));
       if (items) {
