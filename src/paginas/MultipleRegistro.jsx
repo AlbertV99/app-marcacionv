@@ -30,7 +30,7 @@ const MultipleRegistro = (props) => {
             const personal = listaPersonales.find((elemento)=>{ return elemento.nro_docum == cedula });
 
             if(cedula =="123456"){
-                localStorage.setItem('persona',JSON.stringify({'cedula':cedula,"nombre":"Invitado","apellido":"Prueba","dsc_cargo":"QA"}));
+                localStorage.setItem('persona',JSON.stringify({'cedula':cedula,"nombre":"Invitado","apellido":"Prueba","dsc_cargo":"QA","id":"0"}));
                 setMsg("Registrado correctamente");
 
             }else if(typeof personal != 'undefined'){
@@ -76,16 +76,24 @@ const MultipleRegistro = (props) => {
                     </Row>
                     <Row>
                         <Col>
+                        </Col>
+                        <Col>
                             <Button variant="primary" type="submit" style={{width:"100%"}}>
                                 Buscar
                             </Button>
                         </Col>
+                        <Col>
+                        </Col>
                     </Row>
                     <Row>
+                        <Col>
+                        </Col>
                         <Col>
                             <Button variant="success" style={{width:"100%"}} onClick={()=>actualizarBD()}>
                                 ActualizarBD
                             </Button>
+                        </Col>
+                        <Col>
                         </Col>
                     </Row>
                     <Row>

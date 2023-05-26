@@ -5,6 +5,7 @@ import {Container,Navbar,Row,Col,Button,Form} from 'react-bootstrap';
 import MenuInferior from '../components/menuInf'
 import Webcam from "react-webcam";
 import peticiones from '../helpers/peticiones'
+import { BiCurrentLocation, BiLogInCircle, BiLogOutCircle,BiAccessibility,BiTime,BiLocationPlus,BiTargetLock } from "react-icons/bi";
 
 const CargarHora = (props) => {
     const {guardarNuevoJson} = peticiones();
@@ -12,6 +13,8 @@ const CargarHora = (props) => {
     const [imgSrc, setImgSrc] = useState(null);
     const [horaActual,setHoraActual] = useState("")
     const [persona,setPersona] = useState({"cedula":""})
+    const [estadoUbicacion,setEstadoUbicacion] = useState(false)
+    const [ubicacion,setUbicacion] = useState({"latitud":0,"longitud":0})
     const navg = useNavigate()
 
 
@@ -28,6 +31,7 @@ const CargarHora = (props) => {
         }else{
             navg('/config')
         }
+        geolocalizar();
         const intervalo = setInterval(ActualizarReloj, 1000);
         return function cleanup() {
             clearInterval(intervalo);
@@ -39,6 +43,21 @@ const CargarHora = (props) => {
         setHoraActual(hora.toLocaleTimeString('es-PY'))
 
     }
+    const geolocalizar = async ()=>{
+          navigator.geolocation.getCurrentPosition(
+              (a) => {
+                  console.log(a);
+
+                  setUbicacion({"latitud":a.coords.latitude,"longitud":a.coords.longitude});
+                  setEstadoUbicacion(true);
+              },
+              (error)=>{
+                console.log("No activo la geolocalizacion",error);
+                setEstadoUbicacion(false);
+
+              }
+          )
+    }
     const capturePhoto = (tipo) => {
         const photo = webcamRef.current.getScreenshot();
         setImgSrc(photo);
@@ -48,6 +67,8 @@ const CargarHora = (props) => {
             cedula: persona.cedula,
             dsc_cargo: persona.dsc_cargo,
             tipo_marcacion : tipo,
+            latitud:"00.00",
+            longitud:"00.00",
             photo: photo,
         };
         // Envía la foto y los datos al servidor utilizando fetch
@@ -77,15 +98,16 @@ const CargarHora = (props) => {
                     <Col>
                         <h2>Marcación de entrada/salida</h2>
                     </Col>
+                    <hr/>
                 </Row>
                 <Row>
                     <Col>
-                        <Form.Label>{horaActual}</Form.Label>
+                        <h5><BiTime/> {horaActual}</h5>
                     </Col>
                 </Row>
                 <Row>
                     <Col>
-                        <Webcam audio={false} height={300}ref={webcamRef} screenshotFormat="image/jpeg" videoConstraints={videoConstraints} width={300}></Webcam>
+                        <Webcam audio={false} height={250}ref={webcamRef} screenshotFormat="image/jpeg" videoConstraints={videoConstraints} width={250}></Webcam>
                     </Col>
                 </Row>
 
@@ -96,17 +118,37 @@ const CargarHora = (props) => {
                         <h6>{persona.dsc_cargo}</h6>
                     </Col>
                 </Row>
+                <Row>
+                    <Col>
+                        <h3>{(estadoUbicacion)?<BiTargetLock/>:<BiLocationPlus/>}</h3>
+                        <span style={{fontSize:"10pt"}}>{ubicacion.latitud} ; {ubicacion.longitud}</span>
+                    </Col>
+                </Row>
 
 
             </Container>
             <Navbar fixed='bottom' style={{position:'fixed',bottom:"100px",width:"100%",justifyContent:"center"}}>
-                <Button variant="success" onClick={()=>{capturePhoto("E")}}>
-                    Entrada
-                </Button>
-
-                <Button variant="danger" onClick={()=>{capturePhoto("S")}}>
-                    Salida
-                </Button>
+                <Col xs={1}>
+                </Col>
+                <Col>
+                    <Button variant="success" onClick={()=>{capturePhoto("E")}} style={{width:"100%"}}>
+                        <BiLogInCircle/>
+                        Entrada
+                    </Button>
+                </Col>
+                <Col>
+                    <Button variant="primary" onClick={()=>{geolocalizar()}}>
+                        <BiAccessibility/>
+                    </Button>
+                </Col>
+                <Col>
+                    <Button variant="danger" onClick={()=>{capturePhoto("S")}} style={{width:"100%"}}>
+                        <BiLogOutCircle/>
+                        Salida
+                    </Button>
+                </Col>
+                <Col xs={1}>
+                </Col>
             </Navbar>
         </Form>
 
