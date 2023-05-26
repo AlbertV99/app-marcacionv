@@ -70,30 +70,34 @@ const MultipleRegistro = (props) => {
                         </Col>
                     </Row>
                     <Row>
+                        <Col xs={2}>
+                        </Col>
                         <Col>
                             <Form.Control type="text" placeholder="Ingrese su Cédula" id="cedula" name="cedula"/>
                         </Col>
+                        <Col xs={2}>
+                        </Col>
                     </Row>
                     <Row>
-                        <Col>
+                        <Col xs={2}>
                         </Col>
                         <Col>
                             <Button variant="primary" type="submit" style={{width:"100%"}}>
                                 Buscar
                             </Button>
                         </Col>
-                        <Col>
+                        <Col xs={2}>
                         </Col>
                     </Row>
                     <Row>
-                        <Col>
+                        <Col xs={2}>
                         </Col>
                         <Col>
                             <Button variant="success" style={{width:"100%"}} onClick={()=>actualizarBD()}>
                                 ActualizarBD
                             </Button>
                         </Col>
-                        <Col>
+                        <Col xs={2}>
                         </Col>
                     </Row>
                     <Row>
