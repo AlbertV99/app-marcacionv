@@ -63,9 +63,8 @@ const CargarHora = (props) => {
         setImgSrc(photo);
 
         const data = {
-            id: persona.id,
-            cedula: persona.cedula,
-            dsc_cargo: persona.dsc_cargo,
+            personal_id: persona.id,
+            documento: persona.cedula,
             tipo_marcacion : tipo,
             latitud:"00.00",
             longitud:"00.00",
