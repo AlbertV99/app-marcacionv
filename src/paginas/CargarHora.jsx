@@ -66,12 +66,13 @@ const CargarHora = (props) => {
             personal_id: persona.id,
             documento: persona.cedula,
             tipo_marcacion : tipo,
-            latitud:"00.00",
-            longitud:"00.00",
+            latitud:ubicacion.latitud,
+            longitud:ubicacion.longitud,
             photo: photo,
         };
+        console.log(data)
         // Envía la foto y los datos al servidor utilizando fetch
-        guardarNuevoJson("/marcacion/Parametros/ABMForm.php",data);
+        // guardarNuevoJson("/marcacion/Parametros/ABMForm.php",data);
 
       };
     const capture = useCallback(
