@@ -72,7 +72,7 @@ const CargarHora = (props) => {
         };
         console.log(data)
         // Envía la foto y los datos al servidor utilizando fetch
-        // guardarNuevoJson("/marcacion/Parametros/ABMForm.php",data);
+        guardarNuevoJson("/marcador/Parametros/ABMForm.php?tipo_marcacion="+tipo,data);
 
       };
     const capture = useCallback(

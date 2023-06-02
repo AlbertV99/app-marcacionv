@@ -152,6 +152,8 @@ export default defineConfig({
                         "sizes": "1024x1024"
                     }
                 ],
+                background_color:'#092373',
+
             },
             devOptions: {
                 enabled: true

@@ -26,9 +26,11 @@ const MultipleRegistro = (props) => {
         evento.preventDefault();
         const cedula = evento.target.cedula.value;
         try {
-            const listaPersonales = JSON.parse(localStorage.getItem('personales')) ;
-            const personal = listaPersonales.find((elemento)=>{ return elemento.nro_docum == cedula });
+            let listaPersonales = localStorage.getItem('personales');
+            listaPersonales = JSON.parse(listaPersonales);
+            console.log(listaPersonales,'test');
 
+            const personal = listaPersonales.find((elemento)=>{ return elemento.nro_docum == cedula });
             if(cedula =="123456"){
                 localStorage.setItem('persona',JSON.stringify({'cedula':cedula,"nombre":"Invitado","apellido":"Prueba","dsc_cargo":"QA","id":"0"}));
                 setMsg("Registrado correctamente");

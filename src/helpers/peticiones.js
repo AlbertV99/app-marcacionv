@@ -113,6 +113,7 @@ const Peticiones = () => {
     const obtenerPersona = async (ci)=>{
         const query= `SELECT * FROM personal WHERE nro_docum ='${ci}';`
         const url = BASE;
+        // + "/personal/Parametros/consultaValores.php"
         const temp = await fetch(url, {
               method: 'POST',
               headers: {'Content-Type': 'text/plain'},
@@ -132,7 +133,7 @@ const Peticiones = () => {
 
     const obtenerPersonales = async ()=>{
         const query = "SELECT id,nombres,apellidos,nro_docum,dsc_cargo FROM personal ;";
-        const url = BASE;
+        const url = BASE + "/personal/Parametros/consultaValores.php";
         const temp = await fetch(url, {
               method: 'POST',
               headers: {'Content-Type': 'text/plain'},
@@ -140,7 +141,8 @@ const Peticiones = () => {
         });
         try{
             const data = JSON.parse(await temp.text());
-            localStorage.setItem('personales',JSON.stringify(data));
+            console.log(data)
+            localStorage.setItem('personales',JSON.stringify(data.datos));
             // return data
         }catch (e){
             console.error("error:",e)

@@ -1,6 +1,6 @@
 const Constantes = ()=>{
-    const HOST = "localhost/marcacion";
-    // const HOST = "http://marcador.valurq.com/inserciones.php";
+    // const HOST = "http://localhost/marcacion";
+    const HOST = "http://vmarcador.valurq.com"
 
 
 
