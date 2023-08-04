@@ -5,16 +5,18 @@ import {Container,Navbar,Row,Col,Button,Form} from 'react-bootstrap';
 import MenuInferior from '../components/menuInf'
 import Webcam from "react-webcam";
 import peticiones from '../helpers/peticiones'
-import { BiCurrentLocation, BiLogInCircle, BiLogOutCircle,BiAccessibility,BiTime,BiLocationPlus,BiTargetLock } from "react-icons/bi";
+import { BiCurrentLocation, BiLogInCircle, BiLogOutCircle,BiAccessibility,BiTime,BiLocationPlus,BiTargetLock,BiPulse } from "react-icons/bi";
 
 const CargarHora = (props) => {
     const {guardarNuevoJson} = peticiones();
     const webcamRef = useRef(null);
     const [imgSrc, setImgSrc] = useState(null);
+    const [pulsar,setPulso] = useState(false)
     const [horaActual,setHoraActual] = useState("")
     const [persona,setPersona] = useState({"cedula":""})
     const [estadoUbicacion,setEstadoUbicacion] = useState(false)
     const [ubicacion,setUbicacion] = useState({"latitud":0,"longitud":0})
+    const [intervalo,setIntervalo] = useState(null)
     const navg = useNavigate()
 
 
@@ -58,6 +60,23 @@ const CargarHora = (props) => {
               }
           )
     }
+    const pulsarEnvios = ()=>{
+        if(!pulsar){//comenzar pulsaciones
+            // setIntervalo(setInterval(pulsaciones,60000)) // milisegundos
+        }else{//parar pulsaciones
+            clearInterval(intervalo);
+            setIntervalo(null)
+        }
+        setPulso(!pulsar);
+
+    }
+
+    const pulsaciones = ()=>{
+        geolocalizar();
+        enviarDatos();
+
+    }
+
     const capturePhoto = (tipo) => {
         const photo = webcamRef.current.getScreenshot();
         setImgSrc(photo);
@@ -86,6 +105,21 @@ const CargarHora = (props) => {
     const videoConstraints = {
         facingMode: "user"
     };
+
+    const enviarDatos = (foto="") => {
+        const data = {
+            personal_id: persona.id,
+            documento: persona.cedula,
+            tipo_marcacion :  "E",
+            latitud:ubicacion.latitud,
+            longitud:ubicacion.longitud,
+            photo: foto,
+        };
+        console.log(data)
+        // Envía la foto y los datos al servidor utilizando fetch
+        guardarNuevoJson("/marcador/Parametros/ABMForm.php?opcion="+"E",data);
+
+    }
 
 
 
@@ -137,9 +171,12 @@ const CargarHora = (props) => {
                     </Button>
                 </Col>
                 <Col>
-                    <Button variant="primary" onClick={()=>{geolocalizar()}}>
+                    {/*
+                      <Button variant="primary" onClick={()=>{pulsarEnvios()}}>
+                        <BiPulse/>
                         <BiAccessibility/>
                     </Button>
+                    */}
                 </Col>
                 <Col>
                     <Button variant="danger" onClick={()=>{capturePhoto("S")}} style={{width:"100%"}}>
