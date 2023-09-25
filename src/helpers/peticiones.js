@@ -135,9 +135,9 @@ const Peticiones = () => {
         const query = "SELECT id,nombres,apellidos,nro_docum,dsc_cargo FROM personal ;";
         const url = BASE + "/personal/Parametros/consultaValores.php";
         const temp = await fetch(url, {
-              method: 'POST',
-              headers: {'Content-Type': 'text/plain'},
-              body: query
+              method: 'GET',
+              // headers: {'Content-Type': 'text/plain'},
+              // body: query
         });
         try{
             const data = JSON.parse(await temp.text());

@@ -148,7 +148,7 @@ const CargarHora = (props) => {
                 <Row>
                     <Col>
                         <h4>{persona.cedula}</h4>
-                        <h2>{persona.nombre +' '+persona.apellido} </h2>
+                        <h2>{persona.nombre} </h2>
                         <h6>{persona.dsc_cargo}</h6>
                     </Col>
                 </Row>

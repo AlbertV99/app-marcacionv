@@ -37,7 +37,7 @@ const MultipleRegistro = (props) => {
 
             }else if(typeof personal != 'undefined'){
                     setMsg("Registrado correctamente")
-                    localStorage.setItem('persona',JSON.stringify({'cedula':personal.nro_docum,"nombre":personal.nombres,"apellido":personal.apellidos,"dsc_cargo":personal.dsc_cargo,"id":personal.id}));
+                    localStorage.setItem('persona',JSON.stringify({'cedula':personal.nro_docum,"nombre":personal.nombre,"apellido":personal.apellidos,"dsc_cargo":personal.dsc_cargo,"id":personal.id}));
             }else{
                 localStorage.setItem('persona',JSON.stringify({}));
                 setMsg("Usuario no existe en el registro");
