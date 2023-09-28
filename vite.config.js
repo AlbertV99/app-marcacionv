@@ -14,7 +14,11 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
     plugins: [
         VitePWA({
-            registerType: 'prompt',
+            registerType: 'autoUpdate',
+            workbox: {
+                cleanupOutdatedCaches: true,
+                skipWaiting: true,
+            },
             includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
             manifest: {
                 name: 'vMarcador',
