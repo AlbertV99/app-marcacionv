@@ -9,17 +9,22 @@ import { BiUserCircle } from "react-icons/bi";
 const MultipleRegistro = (props) => {
     const [datos, setDatos] = useState([]);
     const [msg, setMsg] = useState("");
+    const [cantEmp, setCantEmp] = useState(0);
     // const [,,,,,,endpointLibre,obtenerPersona,registrarMarcacion,obtenerHistorial] = Peticiones();
     const {endpointLibre,obtenerPersona,registrarMarcacion,obtenerHistorial,obtenerPersonales} = Peticiones();
     useEffect(() => {
-      const items = JSON.parse(localStorage.getItem('persona'));
+      const items = JSON.parse(localStorage.getItem('personales'));
       if (items) {
-       setDatos(items);
+        setDatos(items);
+        setCantEmp(items.length);
       }
     }, []);
 
     const actualizarBD = async ()=>{
         await obtenerPersonales();
+        let listaPersonales = localStorage.getItem('personales');
+        listaPersonales = JSON.parse(listaPersonales);
+        setCantEmp(listaPersonales.length);
     }
 
     const guardarInfo = async (evento)=>{
@@ -60,6 +65,9 @@ const MultipleRegistro = (props) => {
         <>
             <Form onSubmit={guardarInfo}>
                 <Container fluid style={{alignItems:"center",gridGap:"1em",display:"grid",marginTop:"3em"}}>
+                    <Row><Col>
+                        <p style={{fontSize:'8pt',color:'#787878'}}>{cantEmp}</p>
+                    </Col></Row>
                     <Row>
                         <Col>
                             <h2 style={{fontSize:"8em"}}><BiUserCircle/></h2>
