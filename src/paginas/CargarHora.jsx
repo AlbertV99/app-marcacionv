@@ -17,6 +17,7 @@ const CargarHora = (props) => {
     const [estadoUbicacion,setEstadoUbicacion] = useState(false)
     const [ubicacion,setUbicacion] = useState({"latitud":0,"longitud":0})
     const [intervalo,setIntervalo] = useState(null)
+    const [msg,setMsg] = useState("")
     const navg = useNavigate()
 
 
@@ -60,22 +61,22 @@ const CargarHora = (props) => {
               }
           )
     }
-    const pulsarEnvios = ()=>{
-        if(!pulsar){//comenzar pulsaciones
-            // setIntervalo(setInterval(pulsaciones,60000)) // milisegundos
-        }else{//parar pulsaciones
-            clearInterval(intervalo);
-            setIntervalo(null)
-        }
-        setPulso(!pulsar);
-
-    }
-
-    const pulsaciones = ()=>{
-        geolocalizar();
-        enviarDatos();
-
-    }
+    // const pulsarEnvios = ()=>{
+    //     if(!pulsar){//comenzar pulsaciones
+    //         // setIntervalo(setInterval(pulsaciones,60000)) // milisegundos
+    //     }else{//parar pulsaciones
+    //         clearInterval(intervalo);
+    //         setIntervalo(null)
+    //     }
+    //     setPulso(!pulsar);
+    //
+    // }
+    //
+    // const pulsaciones = ()=>{
+    //     geolocalizar();
+    //     enviarDatos();
+    //
+    // }
 
     const capturePhoto = (tipo) => {
         const photo = webcamRef.current.getScreenshot();
@@ -91,7 +92,12 @@ const CargarHora = (props) => {
         };
         console.log(data)
         // Envía la foto y los datos al servidor utilizando fetch
-        guardarNuevoJson("/marcador/Parametros/ABMForm.php?opcion="+tipo,data);
+        let resp = guardarNuevoJson("/marcador/Parametros/ABMForm.php?opcion="+tipo,data);
+        if(resp.cod =='00'){ // OPTIMIZE:  hacer alert con bootstrap
+            setMsg("Marcado Correctamente")
+        }else{
+            setMsg(resp.msg)
+        }
 
       };
     const capture = useCallback(
@@ -171,12 +177,6 @@ const CargarHora = (props) => {
                     </Button>
                 </Col>
                 <Col>
-                    {/*
-                      <Button variant="primary" onClick={()=>{pulsarEnvios()}}>
-                        <BiPulse/>
-                        <BiAccessibility/>
-                    </Button>
-                    */}
                 </Col>
                 <Col>
                     <Button variant="danger" onClick={()=>{capturePhoto("S")}} style={{width:"100%"}}>
