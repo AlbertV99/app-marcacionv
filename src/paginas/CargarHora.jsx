@@ -34,6 +34,7 @@ const CargarHora = (props) => {
         }else{
             navg('/config')
         }
+        setMsg("");
         geolocalizar();
         const intervalo = setInterval(ActualizarReloj, 1000);
         return function cleanup() {
@@ -142,7 +143,7 @@ const CargarHora = (props) => {
                 </Row>
                 <Row>
                     <Col>
-                        <h5><BiTime/> {horaActual}</h5>
+                        <p style={{fontSize:"8pt"}}><BiTime/> {horaActual}</p>
                     </Col>
                 </Row>
                 <Row>
@@ -153,22 +154,26 @@ const CargarHora = (props) => {
 
                 <Row>
                     <Col>
-                        <h4>{persona.cedula}</h4>
-                        <h2>{persona.nombre} </h2>
-                        <h6>{persona.dsc_cargo}</h6>
+                        <h7>{persona.cedula}</h7>
+                        <h5>{persona.nombre} </h5>
+                        <h7>{persona.dsc_cargo}</h7>
                     </Col>
                 </Row>
                 <Row>
                     <Col>
-                        <h3>{(estadoUbicacion)?<BiTargetLock/>:<BiLocationPlus/>}</h3>
-                        <span style={{fontSize:"10pt"}}>{ubicacion.latitud} ; {ubicacion.longitud}</span>
+                        <p style={{fontSize:"8pt"}}>{(estadoUbicacion)?<BiTargetLock/>:<BiLocationPlus/>} <span>{ubicacion.latitud} ; {ubicacion.longitud}</span></p>
                     </Col>
                 </Row>
-
+                <Row>
+                    <Col>
+                        {msg}
+                    </Col>
+                </Row>
 
             </Container>
             <Navbar fixed='bottom' style={{position:'fixed',bottom:"100px",width:"100%",justifyContent:"center"}}>
                 <Col xs={1}>
+
                 </Col>
                 <Col>
                     <Button variant="success" onClick={()=>{capturePhoto("E")}} style={{width:"100%"}}>
