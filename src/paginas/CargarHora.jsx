@@ -151,24 +151,20 @@ const CargarHora = (props) => {
                         <Webcam audio={false} height={250}ref={webcamRef} screenshotFormat="image/jpeg" videoConstraints={videoConstraints} width={250}></Webcam>
                     </Col>
                 </Row>
-
                 <Row>
                     <Col>
-                        <h7>{persona.cedula}</h7>
+                        <span style={{fontSize:"10pt"}}>{persona.cedula}</span>
                         <h5>{persona.nombre} </h5>
-                        <h7>{persona.dsc_cargo}</h7>
+                        <p style={{fontSize:"8pt"}}>{persona.dsc_cargo}</p>
                     </Col>
                 </Row>
                 <Row>
                     <Col>
+                        <p style={{fontSize:"10pt"}}>{msg}</p>
                         <p style={{fontSize:"8pt"}}>{(estadoUbicacion)?<BiTargetLock/>:<BiLocationPlus/>} <span>{ubicacion.latitud} ; {ubicacion.longitud}</span></p>
                     </Col>
                 </Row>
-                <Row>
-                    <Col>
-                        {msg}
-                    </Col>
-                </Row>
+
 
             </Container>
             <Navbar fixed='bottom' style={{position:'fixed',bottom:"100px",width:"100%",justifyContent:"center"}}>
