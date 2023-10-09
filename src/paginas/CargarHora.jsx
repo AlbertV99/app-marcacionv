@@ -79,7 +79,7 @@ const CargarHora = (props) => {
     //
     // }
 
-    const capturePhoto = (tipo) => {
+    const capturePhoto = async (tipo) => {
         const photo = webcamRef.current.getScreenshot();
         setImgSrc(photo);
 
@@ -93,7 +93,7 @@ const CargarHora = (props) => {
         };
         console.log(data)
         // Envía la foto y los datos al servidor utilizando fetch
-        let resp = guardarNuevoJson("/marcador/Parametros/ABMForm.php?opcion="+tipo,data);
+        let resp = await guardarNuevoJson("/marcador/Parametros/ABMForm.php?opcion="+tipo,data);
         if(resp.cod =='00'){ // OPTIMIZE:  hacer alert con bootstrap
             setMsg("Marcado Correctamente")
         }else{
