@@ -62,22 +62,6 @@ const CargarHora = (props) => {
               }
           )
     }
-    // const pulsarEnvios = ()=>{
-    //     if(!pulsar){//comenzar pulsaciones
-    //         // setIntervalo(setInterval(pulsaciones,60000)) // milisegundos
-    //     }else{//parar pulsaciones
-    //         clearInterval(intervalo);
-    //         setIntervalo(null)
-    //     }
-    //     setPulso(!pulsar);
-    //
-    // }
-    //
-    // const pulsaciones = ()=>{
-    //     geolocalizar();
-    //     enviarDatos();
-    //
-    // }
 
     const capturePhoto = async (tipo) => {
         const photo = webcamRef.current.getScreenshot();
@@ -92,15 +76,24 @@ const CargarHora = (props) => {
             photo: photo,
         };
         console.log(data)
-        // Envía la foto y los datos al servidor utilizando fetch
-        let resp = await guardarNuevoJson("/marcador/Parametros/ABMForm.php?opcion="+tipo,data);
-        if(resp.cod =='00'){ // OPTIMIZE:  hacer alert con bootstrap
-            setMsg("Marcado Correctamente")
-        }else{
-            setMsg(resp.msg)
-        }
 
-      };
+        if(validarDatos(data)){
+            try{
+                let resp = await guardarNuevoJson("/marcador/Parametros/ABMForm.php?opcion="+tipo,data);
+                if(resp.cod =='00'){ // OPTIMIZE:  hacer alert con bootstrap
+                    setMsg("Marcado Correctamente")
+                }else{
+                    setMsg(resp.msg)
+                }
+
+            }catch(e){
+                setMsg("Ha ocurrido un error al realizar la marcacion")
+            }
+        }else{
+            setMsg("Debe activar su ubicacion y tener conexion para realizar la marcacion")
+        }
+    };
+        // Envía la foto y los datos al servidor utilizando fetch
     const capture = useCallback(
         () => {
             const imageSrc = webcamRef.current.getScreenshot();
@@ -113,6 +106,14 @@ const CargarHora = (props) => {
         facingMode: "user"
     };
 
+    const validarDatos = (datos)=>{
+        if((typeof datos.latitud == 'undefined' || typeof datos.longitud == 'undefined' ) || (datos.latitud == 0 || datos.longitud == 0 )){
+            return false
+        }
+
+
+        return true
+    }
     const enviarDatos = (foto="") => {
         const data = {
             personal_id: persona.id,
