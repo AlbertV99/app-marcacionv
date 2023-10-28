@@ -34,22 +34,122 @@ const Peticiones = () => {
         return data
     }
 
+    const procesoDeEnvio =  async (datos) => {
+        console.log("Proceso de envio")
+        let resp;
+        try {
+            if(obtenerListaEnviar().length <4){
+                resp = await actualizacionListaEnviar(datos)
+                enviarLista();
+            }else{
+                throw new Error("Capacidad de registros almacenables lleno")
+            }
+        } catch (e) {
+            console.log(e)
+            resp = {"cod":"99","msg":"Error al realizar el envio de datos"}
+        } finally {
+
+        }
+
+        if(resp.cod !="00"){
+            console.log("error ")
+            resp.cod = "09"
+            resp.msg = "Guardado para envio al regresar la conexion "
+            actualizacionListaEnviar(datos);
+        }else{
+            enviarLista();
+        }
+        console.log(resp)
+        return resp
+    }
+
+    const actualizacionListaEnviar = (datos) => {
+        console.log("Data",datos)
+        const queue = JSON.parse(localStorage.getItem('listaRegistros')) || [];
+        queue.push(datos);
+        localStorage.setItem('listaRegistros', JSON.stringify(queue));
+    }
+
+    const obtenerListaEnviar = ()=> {
+        const lista = localStorage.getItem("listaRegistros") || "[]";
+
+        return JSON.parse(lista)
+    }
+
+    const enviarLista = async () => {
+        const lista = obtenerListaEnviar();
+        const listaRespuesta = [] ;
+        console.log("Envio Masivo")
+        let resp;
+        try {
+            for (const registro of lista) {
+
+                resp = await guardarRegistro(registro)
+                console.log("->"+resp.cod)
+                if(resp.cod == "00"){
+                    listaRespuesta.push(resp);
+                    lista.splice(i,1);
+                }else{
+                    resp.cod="99"
+                    resp.msg="Error de registro"
+                    throw new Error(" No se puede enviar el registro, inconsistencia de datos")
+                    break;
+                }
+
+            }
+        } catch (e) {
+
+            console.log("Error de conexion, throw",resp)
+            throw new Error(e);
+        }
+
+    }
+
+    const guardarRegistro = async (registro) =>{
+        let url = BASE + "/marcador/Parametros/ABMForm.php?opcion=E" ;
+        console.log(registro)
+        let data ;
+        if (navigator.onLine) {
+            const temp = await fetch(url, {
+                "method": "POST",
+                "headers": {
+                    "Content-Type": "application/json",
+                },
+                "body": JSON.stringify(registro)
+            });
+            if(temp.ok){
+                data = await temp.json();
+            }else{
+                data = {"cod":"99","msg":"ERROR no hay internet"}
+            }
+        }else{
+            data = {"cod":"99","msg":"ERROR no hay internet"}
+        }
+        console.log(data);
+        return data;
+    }
+
     const guardarNuevoJson = async (modulo,datos)=>{
         const url = BASE + modulo ;
         console.log(url)
         console.log(datos)
-        const temp = await fetch(url, {
-            "method": "POST",
-            "headers": {
-                "Content-Type": "application/json",
-            },
-            "body": JSON.stringify(datos)
-        });
-        console.log(temp);
+        let resp ={"cod":"99","msg":"ERROR inesperado"}
         // const res = await fetch(url)
-        const data = await temp.json();
-        console.log(data);
-        return data;
+        try {
+            const temp = await fetch(url, {
+                "method": "POST",
+                "headers": {
+                    "Content-Type": "application/json",
+                },
+                "body": JSON.stringify(datos)
+            });
+            console.log(temp);
+            const resp = await temp.json();
+
+        } catch (e) {
+            console.log("Error : ", e)
+        }
+        return resp;
     }
 
     const guardarNuevoArchivo = async (modulo,datos)=>{
@@ -153,6 +253,7 @@ const Peticiones = () => {
     const registrarMarcacion = async (datos)=>{
         return ""
     }
+
     const obtenerHistorial = async (ci)=>{
         const query = `SELECT pa.id,pa.fecha, pa.personal, pa.hs_entrada,pa.hs_entrada,pa.hs_salida FROM panel_asistencia  pa join personal p on  pa.personal = CONCAT(p.nombres,' ',p.apellidos) WHERE p.nro_docum = '${ci}'  LIMIT 20`;
         const url = BASE;
@@ -183,7 +284,13 @@ const Peticiones = () => {
         "obtenerPersona":obtenerPersona,
         "registrarMarcacion":registrarMarcacion,
         "obtenerHistorial":obtenerHistorial,
-        "obtenerPersonales":obtenerPersonales
+        "obtenerPersonales":obtenerPersonales,
+        "procesoDeEnvio" : procesoDeEnvio,
+        "actualizacionListaEnviar" : actualizacionListaEnviar,
+        "obtenerListaEnviar" : obtenerListaEnviar,
+        "enviarLista" : enviarLista,
+
+
     }
 }
 

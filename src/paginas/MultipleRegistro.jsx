@@ -9,22 +9,40 @@ import { BiUserCircle } from "react-icons/bi";
 const MultipleRegistro = (props) => {
     const [datos, setDatos] = useState([]);
     const [msg, setMsg] = useState("");
+    const [msg2, setMsg2] = useState("");
     const [cantEmp, setCantEmp] = useState(0);
+    const [cantPend, setCantPend] = useState(0);
     // const [,,,,,,endpointLibre,obtenerPersona,registrarMarcacion,obtenerHistorial] = Peticiones();
-    const {endpointLibre,obtenerPersona,registrarMarcacion,obtenerHistorial,obtenerPersonales} = Peticiones();
+    const {endpointLibre,obtenerPersona,registrarMarcacion,obtenerHistorial,obtenerPersonales,obtenerListaEnviar,enviarLista} = Peticiones();
     useEffect(() => {
-      const items = JSON.parse(localStorage.getItem('personales'));
-      if (items) {
-        setDatos(items);
-        setCantEmp(items.length);
-      }
+        const items = JSON.parse(localStorage.getItem('personales'));
+        if (items) {
+          setDatos(items);
+          setCantEmp(items.length);
+        }
+      actualizarCantLista()
     }, []);
 
+    const actualizarCantLista = ()=>{
+        const listaEnviar = obtenerListaEnviar()
+        setCantPend(listaEnviar.length);
+
+    }
     const actualizarBD = async ()=>{
         await obtenerPersonales();
         let listaPersonales = localStorage.getItem('personales');
         listaPersonales = JSON.parse(listaPersonales);
         setCantEmp(listaPersonales.length);
+        try {
+            console.log("A")
+            await enviarLista();
+            console.log("E")
+            actualizarCantLista()
+        } catch (e) {
+            console.log(e.message)
+            // setMsg2("Error al enviar datos al servidor")
+            setMsg2(e.message)
+        }
     }
 
     const guardarInfo = async (evento)=>{
@@ -36,27 +54,23 @@ const MultipleRegistro = (props) => {
             console.log(listaPersonales,'test');
 
             const personal = listaPersonales.find((elemento)=>{ return elemento.nro_docum == cedula });
-            if(cedula =="123456"){
-                localStorage.setItem('persona',JSON.stringify({'cedula':cedula,"nombre":"Invitado","apellido":"Prueba","dsc_cargo":"QA","id":"0"}));
-                setMsg("Registrado correctamente");
-
-            }else if(typeof personal != 'undefined'){
-                    setMsg("Registrado correctamente")
+            if(typeof personal != 'undefined'){
                     localStorage.setItem('persona',JSON.stringify({'cedula':personal.nro_docum,"nombre":personal.nombre,"apellido":personal.apellidos,"dsc_cargo":personal.dsc_cargo,"id":personal.id}));
+                    setMsg("Registrado correctamente")
             }else{
                 localStorage.setItem('persona',JSON.stringify({}));
                 setMsg("Usuario no existe en el registro");
             }
 
         } catch (e) {
-            if(cedula =="123456"){
-                localStorage.setItem('persona',JSON.stringify({'cedula':cedula,"nombre":"Invitado","apellido":"Prueba","dsc_cargo":"QA","id":"0"}));
-                setMsg("Registrado correctamente");
-            }
             console.error(e);
             setMsg("Ha ocurrido un error, comuniquese con el administrador")
-        } finally {
-
+        }
+        try {
+            enviarLista();
+            actualizarCantLista()
+        } catch (e) {
+            setMsg2("Error al enviar datos al servidor")
         }
 
     }
@@ -65,9 +79,16 @@ const MultipleRegistro = (props) => {
         <>
             <Form onSubmit={guardarInfo}>
                 <Container fluid style={{alignItems:"center",gridGap:"1em",display:"grid",marginTop:"3em"}}>
-                    <Row><Col>
-                        <p style={{fontSize:'8pt',color:'#787878'}}>{cantEmp}</p>
-                    </Col></Row>
+                    <Row>
+                        <Col>
+                            <p style={{fontSize:'8pt',color:'#787878'}}>{cantEmp}</p>
+                        </Col>
+                        <Col>
+                        </Col>
+                        <Col>
+                            <p style={{fontSize:'8pt',color:'#787878'}}>{cantPend}</p>
+                        </Col>
+                    </Row>
                     <Row>
                         <Col>
                             <h2 style={{fontSize:"8em"}}><BiUserCircle/></h2>
@@ -117,6 +138,11 @@ const MultipleRegistro = (props) => {
                     <Row>
                         <Col>
                             <h3>{msg}</h3>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <h3>{msg2}</h3>
                         </Col>
                     </Row>
                 </Container>

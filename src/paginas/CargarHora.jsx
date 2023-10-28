@@ -8,7 +8,7 @@ import peticiones from '../helpers/peticiones'
 import { BiCurrentLocation, BiLogInCircle, BiLogOutCircle,BiAccessibility,BiTime,BiLocationPlus,BiTargetLock,BiPulse } from "react-icons/bi";
 
 const CargarHora = (props) => {
-    const {guardarNuevoJson} = peticiones();
+    const {guardarNuevoJson,procesoDeEnvio} = peticiones();
     const webcamRef = useRef(null);
     const [imgSrc, setImgSrc] = useState(null);
     const [pulsar,setPulso] = useState(false)
@@ -79,11 +79,18 @@ const CargarHora = (props) => {
 
         if(validarDatos(data)){
             try{
-                let resp = await guardarNuevoJson("/marcador/Parametros/ABMForm.php?opcion="+tipo,data);
+                // let resp = await guardarNuevoJson("/marcador/Parametros/ABMForm.php?opcion="+tipo,data);
+
+                let resp = await procesoDeEnvio(data);
+                console.log(resp)
                 if(resp.cod =='00'){ // OPTIMIZE:  hacer alert con bootstrap
                     setMsg("Marcado Correctamente")
                 }else{
-                    setMsg(resp.msg)
+                    if(typeof resp.msg =='undefined'){
+                        setMsg("Error inesperado por parte del servidor")
+                    }else{
+                        setMsg(resp.msg)
+                    }
                 }
 
             }catch(e){
@@ -125,8 +132,8 @@ const CargarHora = (props) => {
         };
         console.log(data)
         // Envía la foto y los datos al servidor utilizando fetch
-        guardarNuevoJson("/marcador/Parametros/ABMForm.php?opcion="+"E",data);
-
+        // guardarNuevoJson("/marcador/Parametros/ABMForm.php?opcion="+"E",data);
+        procesoDeEnvio(data);
     }
 
 
