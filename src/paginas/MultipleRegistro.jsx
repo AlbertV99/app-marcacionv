@@ -15,10 +15,14 @@ const MultipleRegistro = (props) => {
     // const [,,,,,,endpointLibre,obtenerPersona,registrarMarcacion,obtenerHistorial] = Peticiones();
     const {endpointLibre,obtenerPersona,registrarMarcacion,obtenerHistorial,obtenerPersonales,obtenerListaEnviar,enviarLista} = Peticiones();
     useEffect(() => {
-        const items = JSON.parse(localStorage.getItem('personales'));
-        if (items) {
-          setDatos(items);
-          setCantEmp(items.length);
+        const items = localStorage.getItem('personales');
+        let listaPers = []
+        if(items != "undefined"){
+            listaPers = JSON.parse(items)
+        }
+        if (listaPers) {
+          setDatos(listaPers);
+          setCantEmp(listaPers.length);
         }
       actualizarCantLista()
     }, []);

@@ -39,26 +39,24 @@ const Peticiones = () => {
         let resp;
         try {
             if(obtenerListaEnviar().length <4){
-                resp = await actualizacionListaEnviar(datos)
-                enviarLista();
+                await actualizacionListaEnviar(datos)
+                resp = await enviarLista();
             }else{
                 throw new Error("Capacidad de registros almacenables lleno")
             }
         } catch (e) {
-            console.log(e)
+            console.log("Catch PDE",e)
             resp = {"cod":"99","msg":"Error al realizar el envio de datos"}
         } finally {
 
         }
 
-        if(resp.cod !="00"){
-            console.log("error ")
-            resp.cod = "09"
-            resp.msg = "Guardado para envio al regresar la conexion "
-            actualizacionListaEnviar(datos);
-        }else{
-            enviarLista();
-        }
+        // if(resp.cod !="00"){
+        //     console.log("error ")
+        //     resp.cod = "09"
+        //     resp.msg = "Guardado para envio al regresar la conexion "
+        //     actualizacionListaEnviar(datos);
+        // }
         console.log(resp)
         return resp
     }
@@ -76,20 +74,38 @@ const Peticiones = () => {
         return JSON.parse(lista)
     }
 
+    const eliminarPosListaEnviar = (pos) =>{
+        const lista = JSON.parse(localStorage.getItem("listaRegistros") || "[]");
+        lista.splice(pos)
+        localStorage.setItem('listaRegistros', JSON.stringify(lista));
+    }
+
     const enviarLista = async () => {
         const lista = obtenerListaEnviar();
-        const listaRespuesta = [] ;
+        // const listaRespuesta = [] ;
+        let listaRespuesta ;
         console.log("Envio Masivo")
         let resp;
         try {
-            for (const registro of lista) {
+            for (let pos in lista) {
 
-                resp = await guardarRegistro(registro)
-                console.log("->"+resp.cod)
+                resp = await guardarRegistro(lista[pos])
+                console.log("->"+resp.cod+ "["+pos+"]")
                 if(resp.cod == "00"){
-                    listaRespuesta.push(resp);
-                    lista.splice(i,1);
+                    // listaRespuesta.push(resp);
+                    listaRespuesta = resp;
+                    eliminarPosListaEnviar(pos)
+                }else if (resp.cod == "09"){
+                    // listaRespuesta.push(resp);
+                    listaRespuesta = resp;
+                    eliminarPosListaEnviar(pos)
+                    break;
+                }else if (resp.cod == "10"){
+                    // listaRespuesta.push(resp);
+                    listaRespuesta = resp;
+                    break;
                 }else{
+
                     resp.cod="99"
                     resp.msg="Error de registro"
                     throw new Error(" No se puede enviar el registro, inconsistencia de datos")
@@ -102,7 +118,7 @@ const Peticiones = () => {
             console.log("Error de conexion, throw",resp)
             throw new Error(e);
         }
-
+        return listaRespuesta
     }
 
     const guardarRegistro = async (registro) =>{
@@ -120,10 +136,10 @@ const Peticiones = () => {
             if(temp.ok){
                 data = await temp.json();
             }else{
-                data = {"cod":"99","msg":"ERROR no hay internet"}
+                data = {"cod":"10","msg":"ERROR no hay internet, datos guardados al retomar conexion"}
             }
         }else{
-            data = {"cod":"99","msg":"ERROR no hay internet"}
+            data = {"cod":"10","msg":"ERROR no hay internet, datos guardados al retomar conexion"}
         }
         console.log(data);
         return data;
@@ -233,7 +249,7 @@ const Peticiones = () => {
 
     const obtenerPersonales = async ()=>{
         const query = "SELECT id,nombres,apellidos,nro_docum,dsc_cargo FROM personal ;";
-        const url = BASE + "/personal/Parametros/consultaValores.php";
+        const url = BASE + "/personal/Parametros/consultaValores.php?tipo=app";
         const temp = await fetch(url, {
               method: 'GET',
               // headers: {'Content-Type': 'text/plain'},
