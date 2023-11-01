@@ -35,9 +35,7 @@ const Peticiones = () => {
     }
 
     const fechaActual = ()=> {let fec = new Date();return fec.getFullYear()+"-"+(fec.getMonth()+1)+"-"+fec.getDate()+" "+fec.getHours()+":"+fec.getMinutes()+":"+fec.getSeconds()}
-    const obtenerUbicacion = () =>{
 
-    }
     const procesoDeEnvio =  async (datos) => {
         console.log("Proceso de envio")
         let resp;
@@ -50,7 +48,7 @@ const Peticiones = () => {
                 throw new Error("Capacidad de registros almacenables lleno")
             }
         } catch (e) {
-            console.log("Catch PDE",e)
+            console.log("Catch PDE ->",e.message)
             resp = {"cod":"99","msg":"Error al realizar el envio de datos"}
         } finally {
 
@@ -68,12 +66,12 @@ const Peticiones = () => {
     }
     const actualizacionUltimaUbicacion = (lat,lon) => {
         if(lat != "0" && lon != "0"){
-            localStorage.setItem('listaRegistros', JSON.stringify({"latitud":lat,"longitud":lon}));
+            localStorage.setItem('ubicacion', JSON.stringify({"latitud":lat,"longitud":lon}));
         }
     }
 
     const obtenerUltimaUbicacion = ()=>{
-        return JSON.parse(localStorage.getItem('listaRegistros')) || {"latitud":0,"longitud":0}
+        return JSON.parse(localStorage.getItem('ubicacion')) || {"latitud":0,"longitud":0}
     }
 
     const obtenerListaEnviar = ()=> {
