@@ -60,7 +60,7 @@ const Peticiones = () => {
     const actualizacionListaEnviar = (datos) => {
         console.log("Data",datos)
         datos.fecha = fechaActual();
-        const queue = JSON.parse(localStorage.getItem('listaRegistros')) || [];
+        const queue = obtenerListaEnviar();
         queue.push(datos);
         localStorage.setItem('listaRegistros', JSON.stringify(queue));
     }
@@ -76,7 +76,8 @@ const Peticiones = () => {
 
     const obtenerListaEnviar = ()=> {
         const lista = localStorage.getItem("listaRegistros") || "[]";
-        return JSON.parse(lista)
+
+        return JSON.parse((lista == "{}"?"[]":lista))
     }
 
     const eliminarPosListaEnviar = (pos) =>{
