@@ -34,11 +34,15 @@ const Peticiones = () => {
         return data
     }
 
+    const fechaActual = ()=> {let fec = new Date();return fec.getFullYear()+"-"+(fec.getMonth()+1)+"-"+fec.getDate()+" "+fec.getHours()+":"+fec.getMinutes()+":"+fec.getSeconds()}
+    const obtenerUbicacion = () =>{
+        
+    }
     const procesoDeEnvio =  async (datos) => {
         console.log("Proceso de envio")
         let resp;
         try {
-            if(obtenerListaEnviar().length <4){
+            if(obtenerListaEnviar().length <10){
                 await actualizacionListaEnviar(datos)
                 resp = await enviarLista();
             }else{
@@ -50,19 +54,13 @@ const Peticiones = () => {
         } finally {
 
         }
-
-        // if(resp.cod !="00"){
-        //     console.log("error ")
-        //     resp.cod = "09"
-        //     resp.msg = "Guardado para envio al regresar la conexion "
-        //     actualizacionListaEnviar(datos);
-        // }
         console.log(resp)
         return resp
     }
 
     const actualizacionListaEnviar = (datos) => {
         console.log("Data",datos)
+        datos.fecha = fechaActual();
         const queue = JSON.parse(localStorage.getItem('listaRegistros')) || [];
         queue.push(datos);
         localStorage.setItem('listaRegistros', JSON.stringify(queue));
@@ -70,7 +68,6 @@ const Peticiones = () => {
 
     const obtenerListaEnviar = ()=> {
         const lista = localStorage.getItem("listaRegistros") || "[]";
-
         return JSON.parse(lista)
     }
 

@@ -54,6 +54,7 @@ const CargarHora = (props) => {
 
                   setUbicacion({"latitud":a.coords.latitude,"longitud":a.coords.longitude});
                   setEstadoUbicacion(true);
+
               },
               (error)=>{
                 console.log("No activo la geolocalizacion",error);
@@ -100,7 +101,7 @@ const CargarHora = (props) => {
                 setMsg("Ha ocurrido un error al realizar la marcacion")
             }
         }else{
-            setMsg("Debe activar su ubicacion")
+            setMsg("Debe activar la camara y su ubicacion")
         }
     };
         // Envía la foto y los datos al servidor utilizando fetch
@@ -117,11 +118,9 @@ const CargarHora = (props) => {
     };
 
     const validarDatos = (datos)=>{
-        if((typeof datos.latitud == 'undefined' || typeof datos.longitud == 'undefined' ) || (datos.latitud == 0 || datos.longitud == 0 )){
+        if(((typeof datos.latitud == 'undefined' || typeof datos.longitud == 'undefined' || datos.longitud == 0 || datos.latitud == 0) || (datos.photo == "" || typeof datos.photo == "undefined"))){
             return false
         }
-
-
         return true
     }
     const enviarDatos = (foto="") => {
@@ -134,8 +133,6 @@ const CargarHora = (props) => {
             photo: foto,
         };
         console.log(data)
-        // Envía la foto y los datos al servidor utilizando fetch
-        // guardarNuevoJson("/marcador/Parametros/ABMForm.php?opcion="+"E",data);
         procesoDeEnvio(data);
     }
 
