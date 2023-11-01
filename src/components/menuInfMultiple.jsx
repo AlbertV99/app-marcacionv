@@ -21,7 +21,7 @@ const MenuInferiorMultiple = (props) => {
     return (
         <Container fluid style={{padding:"0px",justifyContent: "center",backgroundColor:'white'}} >
             <Row style={{width:"100%",justifyContent:"center"}} id="opciones">
-                <p style={{fontSize:'8pt',color:'#787878'}}>version: 0.1-alpha.10</p>
+                <p style={{fontSize:'8pt',color:'#787878'}}>version: 0.1-alpha.11</p>
                 <Col xs={6}>
                     <NavLink to={`/cargarHora`}>
                             <h2><BiCalendarCheck/></h2>

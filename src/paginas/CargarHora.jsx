@@ -8,7 +8,7 @@ import peticiones from '../helpers/peticiones'
 import { BiCurrentLocation, BiLogInCircle, BiLogOutCircle,BiAccessibility,BiTime,BiLocationPlus,BiTargetLock,BiPulse } from "react-icons/bi";
 
 const CargarHora = (props) => {
-    const {procesoDeEnvio,guardarRegistro} = peticiones();
+    const {procesoDeEnvio,guardarRegistro,obtenerUltimaUbicacion} = peticiones();
     const webcamRef = useRef(null);
     const [imgSrc, setImgSrc] = useState(null);
     const [pulsar,setPulso] = useState(false)
@@ -25,6 +25,8 @@ const CargarHora = (props) => {
         const persona =localStorage.getItem('persona');
         let cedula = "";
         if( persona ){
+            let pos = obtenerUltimaUbicacion();
+            setUbicacion(pos)
             cedula = JSON.parse(persona);
             if(cedula.cedula){
                 setPersona(cedula)

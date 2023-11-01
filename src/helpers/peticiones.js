@@ -36,7 +36,7 @@ const Peticiones = () => {
 
     const fechaActual = ()=> {let fec = new Date();return fec.getFullYear()+"-"+(fec.getMonth()+1)+"-"+fec.getDate()+" "+fec.getHours()+":"+fec.getMinutes()+":"+fec.getSeconds()}
     const obtenerUbicacion = () =>{
-        
+
     }
     const procesoDeEnvio =  async (datos) => {
         console.log("Proceso de envio")
@@ -44,6 +44,7 @@ const Peticiones = () => {
         try {
             if(obtenerListaEnviar().length <10){
                 await actualizacionListaEnviar(datos)
+                actualizacionUltimaUbicacion(datos.lat,datos.lon);
                 resp = await enviarLista();
             }else{
                 throw new Error("Capacidad de registros almacenables lleno")
@@ -64,6 +65,15 @@ const Peticiones = () => {
         const queue = JSON.parse(localStorage.getItem('listaRegistros')) || [];
         queue.push(datos);
         localStorage.setItem('listaRegistros', JSON.stringify(queue));
+    }
+    const actualizacionUltimaUbicacion = (lat,lon) => {
+        if(lat != "0" && lon != "0"){
+            localStorage.setItem('listaRegistros', JSON.stringify({"latitud":lat,"longitud":lon}));
+        }
+    }
+
+    const obtenerUltimaUbicacion = ()=>{
+        return JSON.parse(localStorage.getItem('listaRegistros')) || {"latitud":0,"longitud":0}
     }
 
     const obtenerListaEnviar = ()=> {
@@ -302,7 +312,8 @@ const Peticiones = () => {
         "actualizacionListaEnviar" : actualizacionListaEnviar,
         "obtenerListaEnviar" : obtenerListaEnviar,
         "enviarLista" : enviarLista,
-
+        "actualizacionUltimaUbicacion":actualizacionUltimaUbicacion,
+        "obtenerUltimaUbicacion":obtenerUltimaUbicacion
 
     }
 }
