@@ -52,11 +52,11 @@ const Peticiones = () => {
         } catch (e) {
             console.log("Catch PDE ->",e)
             if(e.message.includes("11")){
-                resp = {"cod":"11","msg":"Error, no pueden registrarse 2 marcaciones offline de la misma persona"}
+                resp = {"cod":"11","msg":"No pueden registrarse 2 marcaciones offline de la misma persona"}
             }else if (e.message.includes("09")){
                 resp = {"cod":"09","msg":"Tipo de marcacion ya registrada para este personal"}
             }else{
-                resp = {"cod":"99","msg":"Error al realizar el envio de datos"}
+                resp = {"cod":"99","msg":"No se pudo realizar el envio de datos"}
             }
 
         } finally {
@@ -134,7 +134,7 @@ const Peticiones = () => {
                 }else{
 
                     resp.cod="99"
-                    resp.msg="Error de registro"
+                    resp.msg="Inconsistencia de Datos"
                     throw new Error(" No se puede enviar el registro, inconsistencia de datos")
                     break;
                 }
@@ -182,7 +182,7 @@ const Peticiones = () => {
         const url = BASE + modulo ;
         console.log(url)
         console.log(datos)
-        let resp ={"cod":"99","msg":"ERROR inesperado"}
+        let resp ={"cod":"99","msg":"Inconveniente inesperado"}
         // const res = await fetch(url)
         try {
             const temp = await fetch(url, {
