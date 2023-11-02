@@ -8,7 +8,7 @@ import peticiones from '../helpers/peticiones'
 import { BiCurrentLocation, BiLogInCircle, BiLogOutCircle,BiAccessibility,BiTime,BiLocationPlus,BiTargetLock,BiPulse } from "react-icons/bi";
 
 const CargarHora = (props) => {
-    const {procesoDeEnvio,guardarRegistro,obtenerUltimaUbicacion} = peticiones();
+    const {procesoDeEnvio,guardarRegistro,obtenerUltimaUbicacion,fechaActual} = peticiones();
     const webcamRef = useRef(null);
     const [imgSrc, setImgSrc] = useState(null);
     const [pulsar,setPulso] = useState(false)
@@ -73,6 +73,7 @@ const CargarHora = (props) => {
         const data = {
             personal_id: persona.id,
             documento: persona.cedula,
+            fecha:fechaActual(),
             tipo_marcacion : tipo,
             latitud:ubicacion.latitud,
             longitud:ubicacion.longitud,

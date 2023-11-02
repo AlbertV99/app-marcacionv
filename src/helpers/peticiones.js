@@ -34,13 +34,13 @@ const Peticiones = () => {
         return data
     }
 
-    const fechaActual = ()=> {let fec = new Date();return fec.getFullYear()+"-"+(fec.getMonth()+1)+"-"+fec.getDate()+" "+fec.getHours()+":"+fec.getMinutes()+":"+fec.getSeconds()}
+    const fechaActual = ()=> {let fec = new Date();return fec.getFullYear()+"-"+((fec.getMonth()+1)+"").padStart(2,0)+"-"+(fec.getDate()+"").padStart(2,0)+" "+(fec.getHours()+"").padStart(2,0)+":"+(fec.getMinutes()+"").padStart(2,0)+":"+(fec.getSeconds()+"").padStart(2,0)}
 
     const procesoDeEnvio =  async (datos) => {
         console.log("Proceso de envio")
         let resp;
         let listaEnviar = obtenerListaEnviar();
-        
+
         try {
             if(listaEnviar.length <10 ){
                 await actualizacionListaEnviar(datos)
@@ -51,9 +51,14 @@ const Peticiones = () => {
             }
         } catch (e) {
             console.log("Catch PDE ->",e)
-            let cat = (e.message.contains("cod"))
+            if(e.message.includes("11")){
+                resp = {"cod":"11","msg":"Error, no pueden registrarse 2 marcaciones offline de la misma persona"}
+            }else if (e.message.includes("09")){
+                resp = {"cod":"09","msg":"Tipo de marcacion ya registrada para este personal"}
+            }else{
+                resp = {"cod":"99","msg":"Error al realizar el envio de datos"}
+            }
 
-            resp = {"cod":"99","msg":"Error al realizar el envio de datos"}
         } finally {
 
         }
@@ -65,14 +70,21 @@ const Peticiones = () => {
         // console.log("Data",datos)
         datos.fecha = fechaActual();
         const queue = obtenerListaEnviar();
-        if(await verificarMarca(datos.personal_id,datos.tipo_marcacion)){
-            queue.push(datos);
-        }else{
+        let validaciones = {"marca":await verificarMarca(datos.personal_id,datos.tipo_marcacion) , "lista":verificarLista(datos.personal_id) }
+        console.log(validaciones)
+        if(!validaciones.marca) {
             console.log("Error de actualizacion")
-            throw new Error(JSON.stringify({"cod": 9, "msg": 'Ya ha marcado este tipo de marcacion , debe realizar otro tipo de marcacion'}))
+            throw new Error("09")
+        }else if(!validaciones.lista ) {
+            console.log("Error de actualizacion")
+            throw new Error("11")
+        }else{
+            queue.push(datos);
         }
         localStorage.setItem('listaRegistros', JSON.stringify(queue));
+        return true;
     }
+
     const actualizacionUltimaUbicacion = (lat,lon) => {
         // console.log("actualizandoUbi",{"lat":lat,"lon":lon})
         if(lat != "0" && lon != "0"){
@@ -129,7 +141,6 @@ const Peticiones = () => {
 
             }
             try {
-
                 obtenerPersonales()
             } catch (e) {
                 console.log(e)
@@ -158,10 +169,10 @@ const Peticiones = () => {
             if(temp.ok){
                 data = await temp.json();
             }else{
-                data = {"cod":"10","msg":"ERROR no hay internet, datos guardados al retomar conexion"}
+                data = {"cod":"10","msg":"NO hay internet, datos guardados"}
             }
         }else{
-            data = {"cod":"10","msg":"ERROR no hay internet, datos guardados al retomar conexion"}
+            data = {"cod":"10","msg":"NO hay internet, datos guardados"}
         }
         console.log(data);
         return data;
@@ -294,19 +305,25 @@ const Peticiones = () => {
             await obtenerPersonales();
         }
         let pers = JSON.parse(localStorage.getItem('personales') || "[]");
-        let elegido = pers.find((elemento) => elemento.id==id)
-        console.log({"id":id,"marca":marca,"elegido":elegido.marca})
-        if(elegido.marca == marca){ // SI LA MARCA INTENTANDO DE REGISTRAR ES IGUAL A LA QUE ULTIMO SE MARCO
-            console.log("Error marca")
+        let elegido = pers.find((elemento) => (elemento.id == id && elemento.marca==marca) )
+        console.log(elegido,"marca",id,marca)
+        if( typeof elegido != 'undefined' ){ // SI LA MARCA INTENTANDO DE REGISTRAR ES IGUAL A LA QUE ULTIMO SE MARCO
             return false // RETORNO PARA ERROR
         }else{
-            console.log("Correcto marca")
             return true // RETORNO SATISFACTORIO
         }
 
     }
-    const registrarMarcacion = async (datos)=>{
-        return ""
+
+    const verificarLista = (id)=> {
+        let lista = obtenerListaEnviar()
+        let existe = lista.find((elemento)=>elemento.personal_id == id)
+        console.log(lista , id,existe)
+        if(typeof existe != 'undefined' ){ // SI EXISTE EL ID EN LA LISTA A ENVIAR EN UN FUTURO
+            return false // RETORNO PARA ERROR
+        }else{
+            return true // RETORNO SATISFACTORIO
+        }
     }
 
     const obtenerHistorial = async (ci)=>{
@@ -337,7 +354,6 @@ const Peticiones = () => {
         "eliminarRegistro":eliminarRegistro,
         "endpointLibre":endpointLibre,
         "obtenerPersona":obtenerPersona,
-        "registrarMarcacion":registrarMarcacion,
         "obtenerHistorial":obtenerHistorial,
         "obtenerPersonales":obtenerPersonales,
         "procesoDeEnvio" : procesoDeEnvio,
@@ -345,7 +361,8 @@ const Peticiones = () => {
         "obtenerListaEnviar" : obtenerListaEnviar,
         "enviarLista" : enviarLista,
         "actualizacionUltimaUbicacion":actualizacionUltimaUbicacion,
-        "obtenerUltimaUbicacion":obtenerUltimaUbicacion
+        "obtenerUltimaUbicacion":obtenerUltimaUbicacion,
+        "fechaActual":fechaActual
 
     }
 }
