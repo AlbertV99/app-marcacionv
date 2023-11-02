@@ -113,7 +113,7 @@ const MultipleRegistro = (props) => {
                         <Col xs={2}>
                         </Col>
                         <Col>
-                            <Form.Control type="text" placeholder="Ingrese su Cédula" id="cedula" name="cedula"/>
+                            <Form.Control type="number" placeholder="Ingrese su Cédula" id="cedula" name="cedula"/>
                         </Col>
                         <Col xs={2}>
                         </Col>

@@ -47,7 +47,7 @@ const Peticiones = () => {
                 actualizacionUltimaUbicacion(datos.latitud,datos.longitud);
                 resp = await enviarLista();
             }else{
-                throw new Error("Capacidad de registros almacenables lleno")
+                throw new Error("12")
             }
         } catch (e) {
             console.log("Catch PDE ->",e)
@@ -55,6 +55,8 @@ const Peticiones = () => {
                 resp = {"cod":"11","msg":"No pueden registrarse 2 marcaciones offline de la misma persona"}
             }else if (e.message.includes("09")){
                 resp = {"cod":"09","msg":"Tipo de marcacion ya registrada para este personal"}
+            }else if (e.message.includes("12")){
+                resp = {"cod":"12","msg":"Llego al maximo de offline"}
             }else{
                 resp = {"cod":"99","msg":"No se pudo realizar el envio de datos"}
             }
