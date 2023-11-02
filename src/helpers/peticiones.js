@@ -39,16 +39,20 @@ const Peticiones = () => {
     const procesoDeEnvio =  async (datos) => {
         console.log("Proceso de envio")
         let resp;
+        let listaEnviar = obtenerListaEnviar();
+        
         try {
-            if(obtenerListaEnviar().length <10){
+            if(listaEnviar.length <10 ){
                 await actualizacionListaEnviar(datos)
-                actualizacionUltimaUbicacion(datos.lat,datos.lon);
+                actualizacionUltimaUbicacion(datos.latitud,datos.longitud);
                 resp = await enviarLista();
             }else{
                 throw new Error("Capacidad de registros almacenables lleno")
             }
         } catch (e) {
-            console.log("Catch PDE ->",e.message)
+            console.log("Catch PDE ->",e)
+            let cat = (e.message.contains("cod"))
+
             resp = {"cod":"99","msg":"Error al realizar el envio de datos"}
         } finally {
 
@@ -57,14 +61,20 @@ const Peticiones = () => {
         return resp
     }
 
-    const actualizacionListaEnviar = (datos) => {
-        console.log("Data",datos)
+    const actualizacionListaEnviar = async (datos) => {
+        // console.log("Data",datos)
         datos.fecha = fechaActual();
         const queue = obtenerListaEnviar();
-        queue.push(datos);
+        if(await verificarMarca(datos.personal_id,datos.tipo_marcacion)){
+            queue.push(datos);
+        }else{
+            console.log("Error de actualizacion")
+            throw new Error(JSON.stringify({"cod": 9, "msg": 'Ya ha marcado este tipo de marcacion , debe realizar otro tipo de marcacion'}))
+        }
         localStorage.setItem('listaRegistros', JSON.stringify(queue));
     }
     const actualizacionUltimaUbicacion = (lat,lon) => {
+        // console.log("actualizandoUbi",{"lat":lat,"lon":lon})
         if(lat != "0" && lon != "0"){
             localStorage.setItem('ubicacion', JSON.stringify({"latitud":lat,"longitud":lon}));
         }
@@ -76,7 +86,6 @@ const Peticiones = () => {
 
     const obtenerListaEnviar = ()=> {
         const lista = localStorage.getItem("listaRegistros") || "[]";
-
         return JSON.parse((lista == "{}"?"[]":lista))
     }
 
@@ -119,11 +128,18 @@ const Peticiones = () => {
                 }
 
             }
+            try {
+
+                obtenerPersonales()
+            } catch (e) {
+                console.log(e)
+            }
         } catch (e) {
 
             console.log("Error de conexion, throw",resp)
             throw new Error(e);
         }
+
         return listaRespuesta
     }
 
@@ -272,6 +288,23 @@ const Peticiones = () => {
         }
     }
 
+    const verificarMarca = async (id,marca) =>{
+        console.log("Entro en marca")
+        if (navigator.onLine) {
+            await obtenerPersonales();
+        }
+        let pers = JSON.parse(localStorage.getItem('personales') || "[]");
+        let elegido = pers.find((elemento) => elemento.id==id)
+        console.log({"id":id,"marca":marca,"elegido":elegido.marca})
+        if(elegido.marca == marca){ // SI LA MARCA INTENTANDO DE REGISTRAR ES IGUAL A LA QUE ULTIMO SE MARCO
+            console.log("Error marca")
+            return false // RETORNO PARA ERROR
+        }else{
+            console.log("Correcto marca")
+            return true // RETORNO SATISFACTORIO
+        }
+
+    }
     const registrarMarcacion = async (datos)=>{
         return ""
     }
