@@ -19,6 +19,7 @@ const CargarHora = (props) => {
     const [intervalo,setIntervalo] = useState(null)
     const [msg,setMsg] = useState("")
     const navg = useNavigate()
+    const [enviando,setEnviando] = useState(false)
 
 
     useEffect(()=>{
@@ -67,6 +68,7 @@ const CargarHora = (props) => {
     }
 
     const capturePhoto = async (tipo) => {
+        setEnviando(true)
         const photo = webcamRef.current.getScreenshot();
         setImgSrc(photo);
 
@@ -89,7 +91,7 @@ const CargarHora = (props) => {
                 console.log("Respuesta procesoDeEnvio",resp)
                 if(resp.cod =='00'){ // OPTIMIZE:  hacer alert con bootstrap
                     setMsg("Marcado Correctamente")
-
+                    setTimeout(restablecerPersonal,5000)
                 }else{
                     if(typeof resp.msg =='undefined'){
                         setMsg("Error inesperado por parte del servidor")
@@ -106,7 +108,14 @@ const CargarHora = (props) => {
         }else{
             setMsg("Debe activar la camara y su ubicacion")
         }
+        setEnviando(false);
+
     };
+    const restablecerPersonal = ()=>{
+        localStorage.setItem('persona',JSON.stringify({}));
+        navg('/config')
+
+    }
         // Envía la foto y los datos al servidor utilizando fetch
     const capture = useCallback(
         () => {

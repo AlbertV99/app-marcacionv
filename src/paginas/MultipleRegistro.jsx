@@ -37,6 +37,7 @@ const MultipleRegistro = (props) => {
         let listaPersonales = localStorage.getItem('personales');
         listaPersonales = JSON.parse(listaPersonales);
         setCantEmp(listaPersonales.length);
+        localStorage.setItem('persona',JSON.stringify({}));
         setMsg("Actualizado correctamente")
         try {
             console.log("A")
