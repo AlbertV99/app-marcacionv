@@ -34,7 +34,7 @@ const Peticiones = () => {
         return data
     }
 
-    const fechaActual = ()=> {let fec = new Date();return fec.getFullYear()+"-"+((fec.getMonth()+1)+"").padStart(2,0)+"-"+(fec.getDate()+"").padStart(2,0)+" "+(fec.getHours()+"").padStart(2,0)+":"+(fec.getMinutes()+"").padStart(2,0)+":"+(fec.getSeconds()+"").padStart(2,0)}
+    const fechaActual = ()=> {let fec = new Date();fec.toLocaleString("es-PY",{timeZone:"America/Argentina/Mendoza"});return fec.getFullYear()+"-"+((fec.getMonth()+1)+"").padStart(2,0)+"-"+(fec.getDate()+"").padStart(2,0)+" "+(fec.getHours()+"").padStart(2,0)+":"+(fec.getMinutes()+"").padStart(2,0)+":"+(fec.getSeconds()+"").padStart(2,0)}
 
     const procesoDeEnvio =  async (datos) => {
         console.log("Proceso de envio")
