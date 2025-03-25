@@ -47,7 +47,7 @@ const CargarHora = (props) => {
 
     const ActualizarReloj=()=>{
         const hora = new Date();
-        setHoraActual(hora.toLocaleTimeString('es-PY'))
+        setHoraActual(hora.toLocaleTimeString('es-PY',{timeZone:"America/Argentina/Mendoza"}))
 
     }
     const geolocalizar = async ()=>{
