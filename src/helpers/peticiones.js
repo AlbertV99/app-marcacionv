@@ -34,8 +34,28 @@ const Peticiones = () => {
         return data
     }
 
-    const fechaActual = ()=> {let fec = new Date();fec.toLocaleString("es-PY",{timeZone:"America/Argentina/Mendoza"});return fec.getFullYear()+"-"+((fec.getMonth()+1)+"").padStart(2,0)+"-"+(fec.getDate()+"").padStart(2,0)+" "+(fec.getHours()+"").padStart(2,0)+":"+(fec.getMinutes()+"").padStart(2,0)+":"+(fec.getSeconds()+"").padStart(2,0)}
+    const fechaActual = (
+        timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone,
+    ) => {
+        let fec = new Date();
+        const formatter = new Intl.DateTimeFormat("es-AR", {
+            timeZone,
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: false,
+        });
 
+        const parts = formatter.formatToParts(fec).reduce((acc, part) => {
+            acc[part.type] = part.value;
+            return acc;
+        }, {});
+
+        return `${parts.year}-${parts.month}-${parts.day} ${parts.hour}:${parts.minute}:${parts.second}`;
+    };
     const procesoDeEnvio =  async (datos) => {
         console.log("Proceso de envio")
         let resp;
