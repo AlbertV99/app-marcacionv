@@ -27,8 +27,9 @@ const CargarHora = (props) => {
         let cedula = "";
         if( persona ){
             let pos = obtenerUltimaUbicacion();
-            setUbicacion(pos)
             cedula = JSON.parse(persona);
+            geolocalizar();
+            
             if(cedula.cedula){
                 setPersona(cedula)
             }else{
@@ -38,7 +39,6 @@ const CargarHora = (props) => {
             navg('/config')
         }
         setMsg("");
-        geolocalizar();
         const intervalo = setInterval(ActualizarReloj, 1000);
         return function cleanup() {
             clearInterval(intervalo);
