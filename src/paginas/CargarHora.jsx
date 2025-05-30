@@ -69,7 +69,6 @@ const CargarHora = (props) => {
 
     const capturePhoto = async (tipo) => {
         setEnviando(true)
-        geolocalizar();
         const photo = webcamRef.current.getScreenshot();
         setImgSrc(photo);
 
