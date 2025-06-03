@@ -198,7 +198,9 @@ const CargarHora = (props) => {
                     </Button>
                 </Col>
                 <Col>
-                </Col>
+                    <Button variant="info" onClick={()=>{geolocalizar()}} style={{width:"100%"}}>
+                        <BiCurrentLocation />
+                    </Button>
                 <Col>
                     <Button variant="danger" onClick={()=>{capturePhoto("S")}} style={{width:"100%"}}>
                         <BiLogOutCircle/>
