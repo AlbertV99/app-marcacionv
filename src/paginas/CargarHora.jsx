@@ -5,7 +5,7 @@ import {Container,Navbar,Row,Col,Button,Form} from 'react-bootstrap';
 import MenuInferior from '../components/menuInf'
 import Webcam from "react-webcam";
 import peticiones from '../helpers/peticiones'
-import { BiCurrentLocation, BiLogInCircle, BiLogOutCircle,BiAccessibility,BiTime,BiLocationPlus,BiTargetLock,BiPulse } from "react-icons/bi";
+import { BiCurrentLocation, BiLogInCircle, BiLogOutCircle,BiAccessibility,BiTime,BiLocationPlus,BiTargetLock,BiPulse ,BiCurrentLocation} from "react-icons/bi";
 
 const CargarHora = (props) => {
     const {procesoDeEnvio,guardarRegistro,obtenerUltimaUbicacion,fechaActual} = peticiones();
