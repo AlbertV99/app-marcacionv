@@ -83,30 +83,32 @@ const CargarHora = (props) => {
         };
         console.log(data)
 
-        if(validarDatos(data)){
-            try{
-                // let resp = await guardarNuevoJson("/marcador/Parametros/ABMForm.php?opcion="+tipo,data);
+        if(validarDatosCamara(data)){
+            if(validarUbicacion(data)){
+                try{
+                    // let resp = await guardarNuevoJson("/marcador/Parametros/ABMForm.php?opcion="+tipo,data);
 
-                let resp = await procesoDeEnvio(data);
-                console.log("Respuesta procesoDeEnvio",resp)
-                if(resp.cod =='00'){ // OPTIMIZE:  hacer alert con bootstrap
-                    setMsg("Marcado Correctamente")
-                    setTimeout(restablecerPersonal,5000)
-                }else{
-                    if(typeof resp.msg =='undefined'){
-                        setMsg("Error inesperado por parte del servidor")
+                    let resp = await procesoDeEnvio(data);
+                    console.log("Respuesta procesoDeEnvio",resp)
+                    if(resp.cod =='00'){ // OPTIMIZE:  hacer alert con bootstrap
+                        setMsg("Marcado Correctamente")
+                        setTimeout(restablecerPersonal,5000)
                     }else{
-                        setMsg(resp.msg)
+                        if(typeof resp.msg =='undefined'){
+                            setMsg("Error inesperado por parte del servidor")
+                        }else{
+                            setMsg(resp.msg)
+                        }
+
                     }
-
+                }catch(e){
+                    setMsg("Ha ocurrido un error al realizar la marcacion")
                 }
-
-            }catch(e){
-
-                setMsg("Ha ocurrido un error al realizar la marcacion")
+            }else{
+                setMsg("Debe activar su ubicacion o esperar a que sea obtenida")
             }
         }else{
-            setMsg("Debe activar la camara y su ubicacion")
+            setMsg("Debe activar la camara")
         }
         setEnviando(false);
 
@@ -129,8 +131,14 @@ const CargarHora = (props) => {
         facingMode: "user"
     };
 
-    const validarDatos = (datos)=>{
-        if(((typeof datos.latitud == 'undefined' || typeof datos.longitud == 'undefined' || datos.longitud == 0 || datos.latitud == 0) || (datos.photo == "" || typeof datos.photo == "undefined"))){
+    const validarDatosCamara = (datos)=>{
+        if(((datos.photo == "" || typeof datos.photo == "undefined"))){
+            return false
+        }
+        return true
+    }
+    const validarUbicacion = (datos ) => {
+        if((typeof datos.latitud == 'undefined' || typeof datos.longitud == 'undefined' || datos.longitud == 0 || datos.latitud == 0) ){
             return false
         }
         return true
