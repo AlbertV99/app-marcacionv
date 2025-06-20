@@ -32,7 +32,7 @@ const MenuInferiorMultiple = (props) => {
                 id="opciones"
             >
                 <p style={{ fontSize: "8pt", color: "#787878" }}>
-                    version: 0.2.0
+                    version: 0.2.1
                 </p>
                 <Col xs={6}>
                     <NavLink to={`/cargarHora`}>
