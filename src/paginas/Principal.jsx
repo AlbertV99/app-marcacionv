@@ -57,25 +57,28 @@ const Principal = (props) => {
         );
     }, []);
 
-    const actualizarBD = async (mostrar = true) => {
+    const actualizarBD = async (mostrar = false) => {
         await obtenerPersonales();
         let listaPersonales = localStorage.getItem("personales");
         listaPersonales = JSON.parse(listaPersonales);
         setListaPersonal(listaPersonales);
         setCant(listaPersonales.length);
         localStorage.setItem("persona", JSON.stringify({}));
-        if (mostrar) {
-            return "Actualizado correctamente";
-        }
+        let respuesta = "Actualizado Correctamente ";
+
         try {
             console.log("A");
             await enviarLista();
             console.log("E");
             actualizarCantLista();
+            respuesta += "Registros locales sincronizados.";
         } catch (e) {
             console.log(e.message);
             // setMsg2("Error al enviar datos al servidor")
             return e.message;
+        }
+        if (mostrar) {
+            return respuesta;
         }
     };
     const actualizarCantLista = () => {
@@ -117,11 +120,16 @@ const Principal = (props) => {
             // OPTIMIZE:  hacer alert con bootstrap
 
             setTimeout(restablecerPersonal, 5000);
-            return "Marcado Correctamente";
+            return "Marcado Correctamente.";
+        } else if (resp.cod == "10") {
+            setTimeout(restablecerPersonal, 5000);
+            return "Marcado guardada localmente.";
         } else {
             if (typeof resp.msg == "undefined") {
+                setTimeout(restablecerPersonal, 6000);
                 return "Error inesperado por parte del servidor";
             } else {
+                setTimeout(restablecerPersonal, 6000);
                 return resp.msg;
             }
         }
