@@ -26,7 +26,7 @@ const RegistroPersonal = ({ setPersonal, actualizarBDTop, listaPersonal }) => {
         setListaPersLocal(listaPersonal);
     }, [listaPersonal]);
     const actualizarBD = async () => {
-        let temp = await actualizarBDTop();
+        let temp = await actualizarBDTop(true);
         setMsg2(temp);
     };
 
@@ -125,7 +125,7 @@ const RegistroPersonal = ({ setPersonal, actualizarBDTop, listaPersonal }) => {
                             <Button
                                 variant="success"
                                 style={{ width: "100%" }}
-                                onClick={() => actualizarBD(true)}
+                                onClick={() => actualizarBD()}
                             >
                                 ActualizarBD
                             </Button>
