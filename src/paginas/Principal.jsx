@@ -38,12 +38,23 @@ const Principal = (props) => {
         } else {
             actualizarBD(false);
         }
-        if (listaPers) {
+        if (listaPers.length > 0) {
+            console.log(listaPers);
             setListaPersonal(listaPers);
             setCant(listaPers.length);
         }
         actualizarCantLista();
         geolocalizar();
+        alert(
+            "ATENCION : \n" +
+                "Para que el sistema de marcacion funcione de manera correcta debe habilitar la utilizacion de cámara y geolocalizacion \n" +
+                "A tener en cuenta :\n" +
+                "* En la parte superior , si el icono de UBICACIÓN se encuentra en ROJO , esperar a que se cambie a color azul , es cuando se obtuvo la ubicacion correctamente" +
+                "* Si el logo de Wifi se encuentra en ROJO , quiere decir que no hay internet, y la marcacion se guardara de manera local y se sincronizara en proximos eventos con conexion" +
+                "\n" +
+                "\n" +
+                "Ante cualquier duda o consulta no dude en contactar al administrador del sistema",
+        );
     }, []);
 
     const actualizarBD = async (mostrar = true) => {
@@ -105,8 +116,8 @@ const Principal = (props) => {
         if (resp.cod == "00") {
             // OPTIMIZE:  hacer alert con bootstrap
 
-            return "Marcado Correctamente";
             setTimeout(restablecerPersonal, 5000);
+            return "Marcado Correctamente";
         } else {
             if (typeof resp.msg == "undefined") {
                 return "Error inesperado por parte del servidor";
@@ -123,7 +134,11 @@ const Principal = (props) => {
     return (
         <Container>
             <Row>
-                <NavbarEstado hasLocation={estadoUbicacion} cant={cantPend} />
+                <NavbarEstado
+                    hasLocation={estadoUbicacion}
+                    cantPend={cantPend}
+                    cantTot={cant}
+                />
             </Row>
             <Row>
                 {personalSeleccionado != null ? (

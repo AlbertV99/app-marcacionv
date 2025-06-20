@@ -3,9 +3,20 @@ import { FaWifi, FaMapMarkerAlt } from "react-icons/fa";
 import { MdStorage } from "react-icons/md";
 import { useState, useEffect } from "react";
 
-export default function NavbarEstado({ hasLocation = false, cant = 0 }) {
+export default function NavbarEstado({
+    hasLocation = false,
+    cantPend = 0,
+    cantTot = 0,
+}) {
     const [isOnline, setIsOnline] = useState(navigator.onLine);
-
+    const [cantPendientes, setCantPendientes] = useState(cantPend);
+    const [cant, setCant] = useState(cantTot);
+    useEffect(() => {
+        setCantPendientes(cantPend);
+    }, [cantPend]);
+    useEffect(() => {
+        setCant(cantTot);
+    }, [cantTot]);
     useEffect(() => {
         const handleOnline = () => setIsOnline(true);
         const handleOffline = () => setIsOnline(false);
@@ -21,7 +32,9 @@ export default function NavbarEstado({ hasLocation = false, cant = 0 }) {
         <Navbar bg="light" expand="lg" className="shadow-sm">
             <Container>
                 <Row>
-                    <Navbar.Brand>Solución</Navbar.Brand>
+                    <Navbar.Brand>
+                        Solución <Badge bg="secondary">{cant}</Badge>
+                    </Navbar.Brand>
                 </Row>
                 <Row>
                     <Col>
@@ -41,7 +54,7 @@ export default function NavbarEstado({ hasLocation = false, cant = 0 }) {
                                 pill
                                 className="position-absolute top-0 start-100 translate-middle"
                             >
-                                {cant}
+                                {cantPendientes}
                             </Badge>
                         </div>
                     </Col>

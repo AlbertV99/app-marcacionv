@@ -26,7 +26,8 @@ const RegistroPersonal = ({ setPersonal, actualizarBDTop, listaPersonal }) => {
         setListaPersLocal(listaPersonal);
     }, [listaPersonal]);
     const actualizarBD = async () => {
-        actualizarBDTop();
+        let temp = await actualizarBDTop();
+        setMsg2(temp);
     };
 
     const guardarInfo = async (evento) => {
