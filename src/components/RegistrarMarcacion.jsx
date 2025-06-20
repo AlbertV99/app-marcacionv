@@ -51,10 +51,8 @@ const RegistrarMarcacion = ({ persona, ubicacionActual, enviarDatos }) => {
         const photo = webcamRef.current.getScreenshot();
         setImgSrc(photo);
 
-        console.log(data);
-
         if (validarDatosCamara(photo)) {
-            if (validarUbicacion(data)) {
+            if (validarUbicacion(ubicacionActual)) {
                 try {
                     // let resp = await guardarNuevoJson("/marcador/Parametros/ABMForm.php?opcion="+tipo,data);
                     let resp = await enviarDatos(photo, tipo);

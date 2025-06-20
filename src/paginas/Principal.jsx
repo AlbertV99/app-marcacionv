@@ -27,6 +27,7 @@ const Principal = (props) => {
         obtenerListaEnviar,
         enviarLista,
         fechaActual,
+        procesoDeEnvio,
     } = Peticiones();
 
     useEffect(() => {
@@ -52,7 +53,9 @@ const Principal = (props) => {
         setListaPersonal(listaPersonales);
         setCant(listaPersonales.length);
         localStorage.setItem("persona", JSON.stringify({}));
-        mostrar ?? setMsg("Actualizado correctamente");
+        if (mostrar) {
+            return "Actualizado correctamente";
+        }
         try {
             console.log("A");
             await enviarLista();
@@ -61,7 +64,7 @@ const Principal = (props) => {
         } catch (e) {
             console.log(e.message);
             // setMsg2("Error al enviar datos al servidor")
-            setMsg2(e.message);
+            return e.message;
         }
     };
     const actualizarCantLista = () => {
