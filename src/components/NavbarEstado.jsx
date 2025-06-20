@@ -27,7 +27,7 @@ export default function NavbarEstado({ hasLocation = false, cant = 0 }) {
                     <Col>
                         {/* Icono de red */}
                         <FaWifi
-                            color={isOnline ? "blue" : "gray"}
+                            color={isOnline ? "blue" : "red"}
                             size={20}
                             title={isOnline ? "Conectado" : "Sin conexión"}
                         />
@@ -48,7 +48,7 @@ export default function NavbarEstado({ hasLocation = false, cant = 0 }) {
                     <Col>
                         {/* Icono de ubicación */}
                         <FaMapMarkerAlt
-                            color={hasLocation ? "blue" : "gray"}
+                            color={hasLocation ? "blue" : "red"}
                             size={20}
                             title={
                                 hasLocation
