@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Container, Navbar, Row, Col, Button, Form } from "react-bootstrap";
 import MenuInferior from "../components/menuInf";
+import { useNavigate } from "react-router-dom";
 import Peticiones from "../helpers/peticiones.js";
 import { BiUserCircle } from "react-icons/bi";
 import NavbarEstado from "../components/NavbarEstado.jsx";
