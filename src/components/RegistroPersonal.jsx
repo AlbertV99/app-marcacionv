@@ -125,7 +125,7 @@ const RegistroPersonal = ({ setPersonal, actualizarBDTop, listaPersonal }) => {
                             <Button
                                 variant="success"
                                 style={{ width: "100%" }}
-                                onClick={() => actualizarBD()}
+                                onClick={() => actualizarBD(true)}
                             >
                                 ActualizarBD
                             </Button>

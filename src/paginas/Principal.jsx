@@ -116,6 +116,7 @@ const Principal = (props) => {
         console.log(data);
         let resp = await procesoDeEnvio(data);
         console.log("Respuesta procesoDeEnvio", resp);
+        actualizarCantLista();
         if (resp.cod == "00") {
             // OPTIMIZE:  hacer alert con bootstrap
 
