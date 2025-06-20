@@ -49,11 +49,11 @@ const Principal = (props) => {
             "ATENCION : \n" +
                 "Para que el sistema de marcacion funcione de manera correcta debe habilitar la utilizacion de cámara y geolocalizacion \n" +
                 "A tener en cuenta :\n" +
-                "* En la parte superior , si el icono de UBICACIÓN se encuentra en ROJO , esperar a que se cambie a color azul , es cuando se obtuvo la ubicacion correctamente\n" +
-                "* Si el logo de Wifi se encuentra en ROJO , quiere decir que no hay internet, y la marcacion se guardara de manera local y se sincronizara en proximos eventos con conexion\n" +
+                "* En la parte superior , si el icono de UBICACIÓN se encuentra en ROJO , esperar a que se cambie a color AZUL \n" +
+                "* Si el logo de Wifi se encuentra en ROJO , la marcacion se guardará de manera local\n" +
                 "\n" +
                 "\n" +
-                "Ante cualquier duda o consulta no dude en contactar al administrador del sistema",
+                "Ante cualquier duda o consulta contacte al administrador del sistema",
         );
     }, []);
 
