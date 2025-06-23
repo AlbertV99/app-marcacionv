@@ -31,12 +31,19 @@ const Principal = (props) => {
     } = Peticiones();
 
     useEffect(() => {
-        const items = localStorage.getItem("personales");
+        inicializar();
+    }, []);
+    const inicializar = async () => {
+        let items = localStorage.getItem("personales");
         let listaPers = [];
-        if (items != "undefined") {
+        console.log(items, "Items impresion");
+        if (typeof items != "undefined" && items != null) {
             listaPers = JSON.parse(items);
         } else {
-            actualizarBD(false);
+            console.log(listaPers, "Testing");
+            await actualizarBD(false);
+            items = localStorage.getItem("personales");
+            listaPers = JSON.parse(items);
         }
         if (listaPers.length > 0) {
             console.log(listaPers);
@@ -45,17 +52,17 @@ const Principal = (props) => {
         }
         actualizarCantLista();
         geolocalizar();
-        // alert(
-        //     "ATENCION : \n" +
-        //         "Para que el sistema de marcacion funcione de manera correcta debe habilitar la utilizacion de cámara y geolocalizacion \n" +
-        //         "A tener en cuenta :\n" +
-        //         "* En la parte superior , si el icono de UBICACIÓN se encuentra en ROJO , esperar a que se cambie a color AZUL \n" +
-        //         "* Si el logo de Wifi se encuentra en ROJO , la marcacion se guardará de manera local\n" +
-        //         "\n" +
-        //         "\n" +
-        //         "Ante cualquier duda o consulta contacte al administrador del sistema",
-        // );
-    }, []);
+        alert(
+            "ATENCION : \n" +
+                "Para que el sistema de marcacion funcione de manera correcta debe habilitar la utilizacion de cámara y geolocalizacion \n" +
+                "A tener en cuenta :\n" +
+                "* En la parte superior , si el icono de UBICACIÓN se encuentra en ROJO , esperar a que se cambie a color AZUL \n" +
+                "* Si el logo de Wifi se encuentra en ROJO , la marcacion se guardará de manera local\n" +
+                "\n" +
+                "\n" +
+                "Ante cualquier duda o consulta contacte al administrador del sistema",
+        );
+    };
 
     const actualizarBD = async (mostrar = false) => {
         await obtenerPersonales();
