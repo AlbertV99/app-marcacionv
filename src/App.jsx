@@ -1,30 +1,34 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import 'bootstrap/dist/css/bootstrap.css';
-import viteLogo from '/vite.svg'
-import './App.css'
-import RegistroApp from './paginas/Registro.jsx'
-import MultipleRegistro from './paginas/MultipleRegistro.jsx'
-import CargarHora from './paginas/CargarHora.jsx'
+import { useState } from "react";
+import reactLogo from "./assets/react.svg";
+import "bootstrap/dist/css/bootstrap.css";
+import viteLogo from "/vite.svg";
+import "./App.css";
+import RegistroApp from "./paginas/Registro.jsx";
+import MultipleRegistro from "./paginas/MultipleRegistro.jsx";
+import CargarHora from "./paginas/CargarHora.jsx";
 // import MenuInferior from './components/menuInf'
-import MenuInferiorMultiple from './components/menuInfMultiple'
-import {Container,Navbar} from 'react-bootstrap';
+import MenuInferiorMultiple from "./components/menuInfMultiple";
+import { Container, Navbar } from "react-bootstrap";
 import { Outlet } from "react-router-dom";
 
 function App() {
-
-
     return (
         <>
             <Outlet></Outlet>
-            <Navbar fixed="bottom" style={{position:'fixed',bottom:"0px",width:"100%",padding:"0px"}}>
+            <Navbar
+                fixed="bottom"
+                style={{
+                    position: "fixed",
+                    bottom: "0px",
+                    width: "100%",
+                    padding: "0px",
+                }}
+            >
                 {/*<MenuInferior></MenuInferior>*/}
-                <MenuInferiorMultiple></MenuInferiorMultiple>
+                {/* <MenuInferiorMultiple></MenuInferiorMultiple> */}
             </Navbar>
-
         </>
-
-    )
+    );
     /*
     <div className="App">
         <div>
@@ -51,4 +55,4 @@ function App() {
      */
 }
 
-export default App
+export default App;
