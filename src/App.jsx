@@ -27,6 +27,7 @@ function App() {
                 <MenuInferior></MenuInferior>
                  <MenuInferiorMultiple></MenuInferiorMultiple>
             </Navbar> */}
+            <p style={{ fontSize: "8pt", color: "#787878" }}>version: 0.2.2</p>
         </>
     );
     /*
