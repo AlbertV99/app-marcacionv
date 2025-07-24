@@ -177,7 +177,7 @@ const RegistrarMarcacion = ({ persona, ubicacionActual, enviarDatos }) => {
                                 Entrada
                             </Button>
                         </Col>
-                        <Col>
+                        <Col xs={2}>
                             <Button
                                 variant="info"
                                 onClick={() => {
