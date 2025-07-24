@@ -15,7 +15,7 @@ function App() {
     return (
         <>
             <Outlet></Outlet>
-            <Navbar
+            {/* <Navbar
                 fixed="bottom"
                 style={{
                     position: "fixed",
@@ -24,9 +24,9 @@ function App() {
                     padding: "0px",
                 }}
             >
-                {/*<MenuInferior></MenuInferior>*/}
-                {/* <MenuInferiorMultiple></MenuInferiorMultiple> */}
-            </Navbar>
+                <MenuInferior></MenuInferior>
+                 <MenuInferiorMultiple></MenuInferiorMultiple>
+            </Navbar> */}
         </>
     );
     /*

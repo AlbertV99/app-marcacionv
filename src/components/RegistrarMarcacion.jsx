@@ -163,54 +163,46 @@ const RegistrarMarcacion = ({ persona, ubicacionActual, enviarDatos }) => {
                             </p>
                         </Col>
                     </Row>
+                    <Row>
+                        <Col xs={1}></Col>
+                        <Col>
+                            <Button
+                                variant="success"
+                                onClick={() => {
+                                    capturePhoto("E");
+                                }}
+                                style={{ width: "100%" }}
+                            >
+                                <BiLogInCircle />
+                                Entrada
+                            </Button>
+                        </Col>
+                        <Col>
+                            <Button
+                                variant="info"
+                                onClick={() => {
+                                    geolocalizar();
+                                }}
+                                style={{ width: "100%" }}
+                            >
+                                <BiCurrentLocation />
+                            </Button>
+                        </Col>
+                        <Col>
+                            <Button
+                                variant="danger"
+                                onClick={() => {
+                                    capturePhoto("S");
+                                }}
+                                style={{ width: "100%" }}
+                            >
+                                <BiLogOutCircle />
+                                Salida
+                            </Button>
+                        </Col>
+                        <Col xs={1}></Col>
+                    </Row>
                 </Container>
-                <Navbar
-                    fixed="bottom"
-                    style={{
-                        position: "fixed",
-                        bottom: "100px",
-                        width: "100%",
-                        justifyContent: "center",
-                    }}
-                >
-                    <Col xs={1}></Col>
-                    <Col>
-                        <Button
-                            variant="success"
-                            onClick={() => {
-                                capturePhoto("E");
-                            }}
-                            style={{ width: "100%" }}
-                        >
-                            <BiLogInCircle />
-                            Entrada
-                        </Button>
-                    </Col>
-                    <Col>
-                        <Button
-                            variant="info"
-                            onClick={() => {
-                                geolocalizar();
-                            }}
-                            style={{ width: "100%" }}
-                        >
-                            <BiCurrentLocation />
-                        </Button>
-                    </Col>
-                    <Col>
-                        <Button
-                            variant="danger"
-                            onClick={() => {
-                                capturePhoto("S");
-                            }}
-                            style={{ width: "100%" }}
-                        >
-                            <BiLogOutCircle />
-                            Salida
-                        </Button>
-                    </Col>
-                    <Col xs={1}></Col>
-                </Navbar>
             </Form>
         </>
     );
