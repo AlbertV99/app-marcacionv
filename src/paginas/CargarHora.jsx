@@ -50,6 +50,7 @@ const CargarHora = (props) => {
         setHoraActual(hora.toLocaleTimeString('es-PY',{timeZone:"America/Argentina/Mendoza"}))
 
     }
+    const geotest = async () => { geolocalizar() }
     const geolocalizar = async () => { 
           navigator.geolocation.getCurrentPosition(
               (a) => {
@@ -206,7 +207,7 @@ const CargarHora = (props) => {
                     </Button>
                 </Col>
                 <Col>
-                    <Button variant="info" onClick={()=>{geolocalizar("")}} style={{width:"100%"}}>
+                    <Button variant="info" onClick={()=>{ geotest("") ; }} style={{width:"100%"}}>
                         <BiCurrentLocation />
                     </Button>
                 </Col>
