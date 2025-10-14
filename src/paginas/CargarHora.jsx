@@ -50,7 +50,7 @@ const CargarHora = (props) => {
         setHoraActual(hora.toLocaleTimeString('es-PY',{timeZone:"America/Argentina/Mendoza"}))
 
     }
-    const geolocalizar = async ()=>{
+    const geolocalizar = async ()=>{ 
           navigator.geolocation.getCurrentPosition(
               (a) => {
                   console.log(a);
