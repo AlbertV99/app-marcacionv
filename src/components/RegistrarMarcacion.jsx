@@ -36,7 +36,23 @@ const RegistrarMarcacion = ({ persona, ubicacionActual, enviarDatos }) => {
     useEffect(() => {
         setUbicacion(ubicacionActual);
     }, [ubicacionActual]);
+    const geolocalizar = async () => {
+        navigator.geolocation.getCurrentPosition(
+            (a) => {
+                console.log(a);
 
+                setUbicacion({
+                    latitud: a.coords.latitude,
+                    longitud: a.coords.longitude,
+                });
+                setEstadoUbicacion(true);
+            },
+            (error) => {
+                console.log("No activo la geolocalizacion", error);
+                setEstadoUbicacion(false);
+            },
+        );
+    };
     const ActualizarReloj = () => {
         const hora = new Date();
         setHoraActual(
